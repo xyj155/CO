@@ -1,6 +1,7 @@
 package com.campus.appointment.base;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.gyf.barlibrary.ImmersionBar;
+
 
 /**
- * Created by Administrator on 2018/7/9.
+ *
+ * @author Administrator
+ * @date 2018/7/9
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -34,7 +39,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView(savedInstanceState);
         //设置数据
         initData();
+        ImmersionBar.with(this).init();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ImmersionBar.with(this).destroy();
     }
 
     public BaseActivity setToolBarSubTitle(String var) {
@@ -102,4 +113,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
+    public void starActivity(Class index) {
+        startActivity(new Intent(BaseActivity.this, index));
+    }
 }
