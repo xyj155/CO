@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         app:autoScrollMode="uniform"
         app:radiusPercent="1"
-        app:scrollSpeed="3" />
+        app:scrollSpeed="2" />
 
 
     <com.scwang.wave.MultiWaveHeader

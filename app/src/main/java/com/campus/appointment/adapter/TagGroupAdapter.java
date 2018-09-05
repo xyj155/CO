@@ -9,21 +9,20 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.campus.appointment.R;
-import com.campus.appointment.TagGroupGson;
+import com.campus.appointment.gson.UserTest;
 import com.moxun.tagcloudlib.view.TagsAdapter;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by Administrator on 2018/9/5/005.
  */
 
 public class TagGroupAdapter extends TagsAdapter {
-    private List<TagGroupGson> list;
+    private List<UserTest.DataBean> list;
     private Context context;
 
-    public TagGroupAdapter(List<TagGroupGson> list, Context context) {
+    public TagGroupAdapter(List<UserTest.DataBean> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -40,7 +39,7 @@ public class TagGroupAdapter extends TagsAdapter {
         ImageView ivHead = inflate.findViewById(R.id.iv_head);
         TextView tvUserName = inflate.findViewById(R.id.tv_username);
         tvUserName.setTextSize(5);
-        Glide.with(context).load(list.get(position).getUserhead()).into(ivHead);
+        Glide.with(context).load(list.get(position).getHead()).into(ivHead);
         tvUserName.setText(list.get(position).getUsername());
         return inflate;
     }
