@@ -1,51 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#fff">
+<!--<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--android:id="@+id/rf_home"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+    <!--<pl.droidsonroids.gif.GifImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="150dp"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:src="@drawable/refresh_loading"-->
+        <!--app:layout_srlSpinnerStyle="Scale"-->
+        <!--app:layout_srlBackgroundColor="@android:color/transparent"/>-->
 
-    <com.moxun.tagcloudlib.view.TagCloudView
-        android:id="@+id/tag_cloud"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:autoScrollMode="uniform"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:radiusPercent="1"
-        app:scrollSpeed="2" />
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff">
+
+        <com.moxun.tagcloudlib.view.TagCloudView
+            android:id="@+id/tag_cloud"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:autoScrollMode="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:radiusPercent="1"
+            app:scrollSpeed="2" />
 
 
-    <com.scwang.wave.MultiWaveHeader
-        android:id="@+id/waveHeader"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        app:mwhCloseColor="@color/blue"
-        app:mwhStartColor="@color/yellow" />
+        <com.scwang.wave.MultiWaveHeader
+            android:id="@+id/waveHeader"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            app:mwhCloseColor="@color/blue"
+            app:mwhStartColor="@color/yellow" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="40dp"
-        android:text="CO"
-        android:textColor="#fff"
-        android:textSize="27sp"
-        app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="40dp"
+            android:text="CO"
+            android:textColor="#fff"
+            android:textSize="27sp"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:id="@+id/iv_setting"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="45sp"
-        android:src="@mipmap/home_title_setting"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/iv_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="45sp"
+            android:src="@mipmap/home_title_setting"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+<!--</com.scwang.smartrefresh.layout.SmartRefreshLayout>-->

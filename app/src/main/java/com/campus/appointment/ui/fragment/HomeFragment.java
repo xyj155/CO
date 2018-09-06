@@ -2,14 +2,17 @@ package com.campus.appointment.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.campus.appointment.R;
 import com.campus.appointment.adapter.TagGroupAdapter;
 import com.campus.appointment.base.BaseFragment;
@@ -32,7 +35,7 @@ import butterknife.OnClick;
  * Created by Administrator on 2018/9/4/004.
  */
 
-public class HomeFragment extends BaseFragment implements HomeContract.View {
+public class HomeFragment extends BaseFragment implements HomeContract.View, AMapLocationListener {
 
     private static HomeFragment instance;
     @InjectView(R.id.tag_cloud)
@@ -41,7 +44,15 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     MultiWaveHeader waveHeader;
     @InjectView(R.id.iv_setting)
     ImageView ivSetting;
+    @InjectView(R.id.home)
+    ConstraintLayout home;
+//    @InjectView(R.id.rf_home)
+//    SmartRefreshLayout rfHome;
     private HomePresenter presenter;
+    //声明mlocationClient对象
+    public AMapLocationClient mlocationClient;
+    //声明mLocationOption对象
+    public AMapLocationClientOption mLocationOption = null;
 
     public static synchronized HomeFragment getInstance() {
         if (instance == null) {
@@ -61,11 +72,18 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         ButterKnife.inject(this, view);
         tagCloud = view.findViewById(R.id.tag_cloud);
         presenter = new HomePresenter(this);
+//        rfHome.autoRefresh();
+//        rfHome.setOnRefreshListener(new OnRefreshListener() {
+//            @Override
+//            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+//                rfHome.finishRefresh(1000);
+//            }
+//        });
     }
 
     @Override
     protected void setUpData() {
-        presenter.queryAroundByGEO("3", "嘉兴", "31.253411", "121.518998");
+
     }
 
     @Override
@@ -74,9 +92,30 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
 
         ButterKnife.inject(this, rootView);
+        mlocationClient = new AMapLocationClient(getActivity());
+        mLocationOption = new AMapLocationClientOption();
+        mlocationClient.setLocationListener(this);
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mLocationOption.setOnceLocation(true);
+        mlocationClient.setLocationOption(mLocationOption);
+        mlocationClient.startLocation();
+
         return rootView;
     }
-
+    @Override
+    public void onLocationChanged(AMapLocation amapLocation) {
+        if (amapLocation != null) {
+            if (amapLocation.getErrorCode() == 0) {
+                Log.i(TAG, "onLocationChanged: "+amapLocation.getLatitude()+"------"+amapLocation.getLongitude());
+                presenter.queryAroundByGEO("3", amapLocation.getCity(), String .valueOf( amapLocation.getLatitude()), String.valueOf(amapLocation.getLongitude()));
+            } else {
+                //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                Log.e("AmapError","location Error, ErrCode:"
+                        + amapLocation.getErrorCode() + ", errInfo:"
+                        + amapLocation.getErrorInfo());
+            }
+        }
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -88,6 +127,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     @Override
     public void showTags(BaseGson<UserGson> list) {
         List<UserGson> groupGsons = new ArrayList<>();
+        Log.i(TAG, "showTags: "+groupGsons);
         for (int i = 0; i < list.getData().size(); i++) {
             UserGson gson = new UserGson();
             gson.setHead(list.getData().get(i).getHead());
@@ -102,11 +142,11 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @OnClick({R.id.iv_setting})
     public void onViewClicked(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_setting:
                 Intent intent1 = new Intent(getContext(), HomeSettingActivity.class);
                 startActivity(intent1);
-                getActivity().overridePendingTransition(R.anim.activity_zoom_in,R.anim.activity_zoom_out);
+                getActivity().overridePendingTransition(R.anim.activity_zoom_in, R.anim.activity_zoom_out);
                 break;
         }
     }

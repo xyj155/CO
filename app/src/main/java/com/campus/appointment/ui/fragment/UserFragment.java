@@ -1,12 +1,16 @@
 package com.campus.appointment.ui.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.campus.appointment.R;
 import com.campus.appointment.base.BaseFragment;
 import com.campus.appointment.ui.activity.UserSettingActivity;
@@ -56,9 +60,15 @@ public class UserFragment extends BaseFragment {
         return R.layout.fragment_user;
     }
 
+    private static final String TAG = "UserFragment";
     @Override
     protected void setUpView(View view, Bundle bundle) {
-
+        ButterKnife.inject(this, view);
+        SharedPreferences sp=getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+        Glide.with(getActivity()).load(sp.getString("head","")).asBitmap().error(R.mipmap.co).into(ivHead);
+        Log.i(TAG, "setUpView: "+sp.getString("head",""));
+        Log.i(TAG, "setUpView: "+sp.getString("username",""));
+        tvUsername.setText(sp.getString("username",""));
     }
 
     @Override
@@ -70,7 +80,6 @@ public class UserFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.inject(this, rootView);
         return rootView;
     }
 

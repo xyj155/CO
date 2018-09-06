@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.campus.appointment.weight.AppleDialog;
 import com.gyf.barlibrary.ImmersionBar;
 
 
@@ -41,7 +42,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         initData();
         ImmersionBar.with(this).init();
     }
+    public void showmDialog(String msg) {
+        dialog = AppleDialog.createLoadingDialog(BaseActivity.this, msg);
+        dialog.show();
+    }
 
+    public void hidemDialog() {
+        dialog.dismiss();
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

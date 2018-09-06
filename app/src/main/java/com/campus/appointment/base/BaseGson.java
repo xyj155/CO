@@ -8,6 +8,16 @@ import java.util.List;
 
 public class BaseGson<T> {
 
+    @Override
+    public String toString() {
+        return "BaseGson{" +
+                "code=" + code +
+                ", success=" + success +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
+
     /**
      * code : 200
      * success : true

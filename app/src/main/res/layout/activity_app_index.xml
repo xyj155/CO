@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:weightSum="3"
+    tools:context="com.campus.appointment.ui.activity.AppIndexActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/index_banner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:paddingTop="30dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/btn_qq_login"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/appindex_btn_qq_bg"
+            android:gravity="center"
+            android:text="QQ登录"
+            android:textColor="#fff" />
+
+        <TextView
+            android:id="@+id/btn_tel_login"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/appindex_btn_tel_bg"
+            android:gravity="center"
+            android:text="手机号登录" />
+    </LinearLayout>
+
+</FrameLayout>

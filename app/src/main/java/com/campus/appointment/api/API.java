@@ -1,4 +1,4 @@
-package com.campus.appointment.http;
+package com.campus.appointment.api;
 
 
 import com.campus.appointment.base.BaseGson;
@@ -22,10 +22,15 @@ public interface API {
                                               @Field("latitude") String latitude,
                                               @Field("longitude") String longitude);
 
+
     //注册
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/User/UserLogin")
     Observable<BaseGson<UserGson>> loginWithUserName(@Field("username") String username,
                                                      @Field("password") String password);    //注册
 
+    //注册
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/User/loginByQQ")
+    Observable<BaseGson<UserGson>> loginWithQQ(@Field("qqid") String qqid);    //登录
 }

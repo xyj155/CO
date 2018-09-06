@@ -1,6 +1,8 @@
 package com.campus.appointment.ui.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -29,7 +31,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     private HomeFragment homeFragment;
     private SquareFragment squareFragment;
     private UserFragment userFragment;
-
+    private FragmentManager fragmentManager;
 
     @Override
     public int intiLayout() {
@@ -47,11 +49,11 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
                 .setBackgroundStyle(BACKGROUND_STYLE_STATIC)
                 .setTabSelectedListener(this)
                 .initialise();
-        friendsFragment = FriendsFragment.getInstance();
-        homeFragment = HomeFragment.getInstance();
-        squareFragment = SquareFragment.getInstance();
-        userFragment = UserFragment.getInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, homeFragment).commitAllowingStateLoss();
+        fragmentManager = getSupportFragmentManager();
+        final FragmentTransaction transaction = fragmentManager.beginTransaction();
+        homeFragment = new HomeFragment();
+        transaction.add(R.id.main_container, homeFragment);
+        transaction.commit();
     }
 
     @Override
@@ -75,19 +77,59 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     }
 
     private void showPositionFragment(int position) {
+        fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        hideAllFragment(transaction);
         switch (position) {
             case 0:
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_container, homeFragment).commitAllowingStateLoss();
+                if (homeFragment == null) {
+                    homeFragment = new HomeFragment();
+                    transaction.add(R.id.main_container, homeFragment);
+                } else {
+                    transaction.show(homeFragment);
+                }
                 break;
             case 1:
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_container, squareFragment).commitAllowingStateLoss();
+                if (squareFragment == null) {
+                    squareFragment = new SquareFragment();
+                    transaction.add(R.id.main_container, squareFragment);
+                } else {
+                    transaction.show(squareFragment);
+                }
                 break;
             case 2:
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_container, friendsFragment).commitAllowingStateLoss();
+                if (friendsFragment == null) {
+                    friendsFragment = new FriendsFragment();
+                    transaction.add(R.id.main_container, friendsFragment);
+                } else {
+                    transaction.show(friendsFragment);
+                }
                 break;
             case 3:
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_container, userFragment).commitAllowingStateLoss();
+                if (userFragment == null) {
+                    userFragment = new UserFragment();
+                    transaction.add(R.id.main_container, userFragment);
+                } else {
+                    transaction.show(userFragment);
+                }
                 break;
+        }
+        transaction.commit();
+    }
+
+
+    public void hideAllFragment(FragmentTransaction transaction) {
+        if (homeFragment != null) {
+            transaction.hide(homeFragment);
+        }
+        if (squareFragment != null) {
+            transaction.hide(squareFragment);
+        }
+        if (friendsFragment != null) {
+            transaction.hide(friendsFragment);
+        }
+        if (userFragment != null) {
+            transaction.hide(userFragment);
         }
     }
 }

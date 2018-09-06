@@ -1,11 +1,38 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'
 
+MobSDK {
+    appKey "27c0fb48331b8"
+    appSecret "fc70f33419f6c2aee1a678de8f82dbba"
+    SMSSDK {}
+    ShareSDK {
+        devInfo {
+            Email {}
+            ShortMessage {}
+            Wechat {
+                appId "wx4868b35061f87885"
+                appSecret "64020361b8ec4c99936c0e3999a9f249"
+                userName "gh_afb25ac019c9"
+                path "pages/index/index.html?id=1"
+                withShareTicket true
+                miniprogramType 2
+                bypassApproval false
+            }
+            QQ {
+                appId "1107829092"
+                appKey "cdpdypB2EKwFXIUD"
+                shareByAppClient true
+                bypassApproval false
+            }
+        }
+    }
+}
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.0"
     defaultConfig {
         applicationId "com.campus.appointment"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -44,6 +71,8 @@ dependencies {
         force = true
     }
     //noinspection GradleCompatible
+    //一个开源gif控件
+    //最新版本
     compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.5'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jakewharton:butterknife:5.1.1'
@@ -66,7 +95,10 @@ dependencies {
     compile 'com.amap.api:location:3.3.0'
     compile 'cn.jiguang.sdk:jmessage:2.7.0'
     compile 'cn.jiguang.sdk:jpush:3.1.5'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.3'
+    compile 'com.youth.banner:banner:1.4.10'
     compile 'cn.jiguang.sdk:jcore:1.2.3'
+    compile 'com.github.Jay-Goo:RangeSeekBar:v2.0.4'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     testCompile 'junit:junit:4.12'
 }

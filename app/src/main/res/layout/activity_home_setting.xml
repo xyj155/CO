@@ -1,9 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
     tools:context="com.campus.appointment.ui.activity.HomeSettingActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/tv_adjustment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:text="调整"
+        android:textColor="#000"
+        android:textSize="27sp"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/tv_border_gray_1dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_city"
+            android:gravity="center|left"
+            android:drawableRight="@mipmap/ic_common_choose"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"
+            android:layout_marginBottom="20dp"
+            android:text="选择城市"
+            android:textColor="#000"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_adjustment"
+            app:layout_constraintTop_toBottomOf="@+id/tv_adjustment" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/tv_border_gray_1dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="距离"
+            android:textColor="#000"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_adjustment"
+            app:layout_constraintTop_toBottomOf="@+id/tv_adjustment" />
+
+        <com.jaygoo.widget.RangeSeekBar
+            android:id="@+id/seekbar_distance"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            app:rsb_indicator_height="20dp"
+            app:rsb_indicator_radius="8dp"
+            app:rsb_indicator_show_mode="alwaysShow"
+            app:rsb_indicator_text_size="12sp"
+            app:rsb_indicator_width="80dp"
+            app:rsb_max="10"
+            app:rsb_mode="single"
+            app:rsb_progress_color="#EE5C42"
+            app:rsb_progress_default_color="@color/rsbColorSeekBarDefault"
+            app:rsb_thumb_drawable="@drawable/seekbar_thumb"
+            app:rsb_tick_mark_mode="number"
+            app:rsb_tick_mark_text_array="@array/distance" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/tv_border_gray_1dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="年龄"
+            android:textColor="#000"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_adjustment"
+            app:layout_constraintTop_toBottomOf="@+id/tv_adjustment" />
+
+        <com.jaygoo.widget.RangeSeekBar
+            android:id="@+id/seekbar_age"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            app:rsb_indicator_height="20dp"
+            app:rsb_indicator_radius="8dp"
+            app:rsb_indicator_show_mode="alwaysShow"
+            app:rsb_indicator_text_size="12sp"
+            app:rsb_indicator_width="80dp"
+            app:rsb_max="40"
+            app:rsb_min="18"
+            app:rsb_mode="range"
+            app:rsb_progress_color="#EE5C42"
+            app:rsb_progress_default_color="@color/rsbColorSeekBarDefault"
+            app:rsb_thumb_drawable="@drawable/seekbar_thumb"
+            app:rsb_tick_mark_mode="number"
+            app:rsb_tick_mark_text_array="@array/age" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/tv_border_gray_1dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:text="性别"
+            android:textColor="#000"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_adjustment"
+            app:layout_constraintTop_toBottomOf="@+id/tv_adjustment" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:id="@+id/rg_sex"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:id="@+id/rb_boy"
+                android:layout_weight="1"
+                android:background="@drawable/rb_home_setting_sex_bg"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="5dp"
+                android:text="男生"
+                android:textColor="@color/rb_home_setting_sex" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:id="@+id/rb_girl"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/rb_home_setting_sex_bg"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="5dp"
+                android:text="女生"
+                android:textColor="@color/rb_home_setting_sex" />
+
+            <RadioButton
+                android:id="@+id/rb_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rb_home_setting_sex_bg"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="5dp"
+                android:text="不限"
+                android:textColor="@color/rb_home_setting_sex" />
+        </RadioGroup>
+    </LinearLayout>
+</LinearLayout>
