@@ -6,6 +6,22 @@ package com.campus.appointment.gson;
 
 public class UserGson {
 
+    @Override
+    public String toString() {
+        return "UserGson{" +
+                "id=" + id +
+                ", identity='" + identity + '\'' +
+                ", tel='" + tel + '\'' +
+                ", city='" + city + '\'' +
+                ", time='" + time + '\'' +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", head='" + head + '\'' +
+                '}';
+    }
+
     /**
      * id : 3
      * identity : null
@@ -29,6 +45,7 @@ public class UserGson {
     private String latitude;
     private String longitude;
     private String head;
+
 
     public int getId() {
         return id;

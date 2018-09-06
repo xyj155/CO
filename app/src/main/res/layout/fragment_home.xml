@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home"
@@ -9,19 +9,24 @@
 
     <com.moxun.tagcloudlib.view.TagCloudView
         android:id="@+id/tag_cloud"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:autoScrollMode="uniform"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:radiusPercent="1"
         app:scrollSpeed="2" />
 
 
     <com.scwang.wave.MultiWaveHeader
-        app:mwhStartColor="@color/yellow"
-        app:mwhCloseColor="@color/blue"
         android:id="@+id/waveHeader"
-        android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        app:mwhCloseColor="@color/blue"
+        app:mwhStartColor="@color/yellow" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,4 +38,14 @@
         android:textSize="27sp"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="parent" />
-</FrameLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:id="@+id/iv_setting"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="45sp"
+        android:src="@mipmap/home_title_setting"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

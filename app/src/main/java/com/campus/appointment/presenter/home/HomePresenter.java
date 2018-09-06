@@ -42,8 +42,8 @@ public class HomePresenter implements HomeContract.Presenter {
 
                     @Override
                     public void onNext(BaseGson<UserGson> userGsonBaseGson) {
-                        if (userGsonBaseGson.getCode()==200){
-                            view.showTags(userGsonBaseGson.getData());
+                        if (userGsonBaseGson.isSuccess()){
+                            view.showTags(userGsonBaseGson);
                         }else {
                             System.out.println("error");
                         }

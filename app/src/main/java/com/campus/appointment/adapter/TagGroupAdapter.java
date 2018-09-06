@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.campus.appointment.R;
+import com.campus.appointment.gson.UserGson;
 import com.campus.appointment.gson.UserTest;
 import com.moxun.tagcloudlib.view.TagsAdapter;
 
@@ -19,10 +20,10 @@ import java.util.List;
  */
 
 public class TagGroupAdapter extends TagsAdapter {
-    private List<UserTest.DataBean> list;
+    private List<UserGson> list;
     private Context context;
 
-    public TagGroupAdapter(List<UserTest.DataBean> list, Context context) {
+    public TagGroupAdapter(List<UserGson> list, Context context) {
         this.list = list;
         this.context = context;
     }

@@ -17,7 +17,7 @@ public interface HomeContract {
     }
 
     interface View {
-        void showTags(List<UserGson> list);
+        void showTags(BaseGson<UserGson>  list);
     }
 
     interface Presenter {
