@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -14,6 +13,11 @@ import android.widget.TextView;
 import com.campus.appointment.R;
 import com.campus.appointment.adapter.GridImageAdapter;
 import com.campus.appointment.base.BaseActivity;
+import com.campus.appointment.base.BaseGson;
+import com.campus.appointment.base.EmptyGson;
+import com.campus.appointment.base.ToastUtil;
+import com.campus.appointment.contract.home.EditPostContract;
+import com.campus.appointment.presenter.home.EditPostPresenter;
 import com.campus.appointment.util.FullyGridLayoutManager;
 import com.campus.appointment.weight.iosDialog.CustomDialog;
 import com.luck.picture.lib.PictureSelector;
@@ -21,14 +25,20 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
-public class EditPostActivity extends BaseActivity {
+public class EditPostActivity extends BaseActivity implements EditPostContract.View {
 
     @InjectView(R.id.iv_close)
     ImageView ivClose;
@@ -42,6 +52,7 @@ public class EditPostActivity extends BaseActivity {
     TextView tvFell;
     private List<LocalMedia> selectList = new ArrayList<>();
     private GridImageAdapter adapter;
+    private EditPostPresenter editPostPresenter;
 
     @Override
     public int intiLayout() {
@@ -57,6 +68,7 @@ public class EditPostActivity extends BaseActivity {
         adapter.setList(selectList);
         adapter.setSelectMax(9);
         recycler.setAdapter(adapter);
+        editPostPresenter = new EditPostPresenter(this);
     }
 
     @Override
@@ -79,7 +91,7 @@ public class EditPostActivity extends BaseActivity {
                     .enablePreviewAudio(false) // 是否可播放音频
                     .isCamera(false)// 是否显示拍照按钮
                     .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
-                    //.imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
+                    .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
                     //.setOutputCameraPath("/CustomPath")// 自定义拍照保存路径
                     .enableCrop(false)// 是否裁剪
                     .compress(true)// 是否压缩
@@ -93,7 +105,7 @@ public class EditPostActivity extends BaseActivity {
                     .circleDimmedLayer(false)// 是否圆形裁剪
                     .showCropFrame(false)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
                     .showCropGrid(false)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
-                    .openClickSound(true)// 是否开启点击声音
+                    .openClickSound(false)// 是否开启点击声音
                     .selectionMedia(selectList)// 是否传入已选图片
                     .minimumCompressSize(100)// 小于100kb的图片不压缩
                     .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
@@ -115,9 +127,7 @@ public class EditPostActivity extends BaseActivity {
                     // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
                     // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
                     // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
-                    for (LocalMedia media : selectList) {
-                        Log.i("图片-----》", media.getPath());
-                    }
+
                     adapter.setList(selectList);
                     adapter.notifyDataSetChanged();
                     break;
@@ -132,6 +142,12 @@ public class EditPostActivity extends BaseActivity {
 
     }
 
+
+    public RequestBody toRequestBody(String value) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), value);
+        return requestBody;
+    }
+
     @OnClick({R.id.iv_close, R.id.tv_submit, R.id.tv_fell})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -139,6 +155,19 @@ public class EditPostActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_submit:
+                Map<String, RequestBody> partMap = new HashMap<>();
+                partMap.put("uid", toRequestBody("4"));
+                partMap.put("content", toRequestBody(etPost.getText().toString()));
+                partMap.put("location", toRequestBody(getSharedPreferences("user",MODE_PRIVATE).getString("location","")));
+                partMap.put("fell", toRequestBody(tvFell.getText().toString()));
+                List<MultipartBody.Part> list = new ArrayList<>();
+                for (LocalMedia media : selectList) {
+                    File file = new File(media.getPath());
+                    RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+                    MultipartBody.Part formData = MultipartBody.Part.createFormData("image[]", file.getName(), requestBody);
+                    list.add(formData);
+                }
+                editPostPresenter.uploadPost(partMap, list);
                 break;
             case R.id.tv_fell:
                 CustomDialog.Builder builder = new CustomDialog.Builder(EditPostActivity.this);
@@ -161,12 +190,36 @@ public class EditPostActivity extends BaseActivity {
                         .setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                tvFell.setText("# "+view1.getText().toString());
+                                tvFell.setText("# " + view1.getText().toString());
                                 customDialog.dismiss();
                             }
                         });
 
                 break;
         }
+    }
+
+    @Override
+    public void isUploadSuccess(BaseGson<EmptyGson> baseGson) {
+        ToastUtil.showToastSuccess("发布成功");
+        finish();
+    }
+
+    @Override
+    public void showLoading(String msg) {
+        showmDialog(msg);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent=new Intent(EditPostActivity.this,HomeActivity.class);
+        startActivity(intent);
+        setResult(0,intent);
+    }
+
+    @Override
+    public void hideLoading() {
+        hidemDialog();
     }
 }

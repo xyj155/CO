@@ -2,6 +2,7 @@ package com.campus.appointment.ui.fragment;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -180,7 +181,18 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fb_square:
-                starActivity(EditPostActivity.class);
+                Intent intent=new Intent(getContext(),EditPostActivity.class);
+                startActivityForResult(intent,0);
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode){
+            case 0:
+                squarePresenter.squareUserActive("3");
                 break;
         }
     }

@@ -1,5 +1,7 @@
 package com.campus.appointment.ui.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -114,6 +116,9 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, AMa
         if (amapLocation != null) {
             if (amapLocation.getErrorCode() == 0) {
                 Log.i(TAG, "onLocationChanged: " + amapLocation.getLatitude() + "------" + amapLocation.getLongitude());
+                SharedPreferences.Editor editor=getActivity().getSharedPreferences("user", Context.MODE_PRIVATE).edit();
+                editor.putString("location",amapLocation.getCity());
+                editor.apply();
                 presenter.queryAroundByGEO("3", amapLocation.getCity(), String.valueOf(amapLocation.getLatitude()), String.valueOf(amapLocation.getLongitude()));
             } else {
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
