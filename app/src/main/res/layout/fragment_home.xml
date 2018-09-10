@@ -1,65 +1,80 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--android:id="@+id/rf_home"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-    <!--<pl.droidsonroids.gif.GifImageView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="150dp"-->
-        <!--android:scaleType="centerCrop"-->
-        <!--android:src="@drawable/refresh_loading"-->
-        <!--app:layout_srlSpinnerStyle="Scale"-->
-        <!--app:layout_srlBackgroundColor="@android:color/transparent"/>-->
+<?xml version="1.0" encoding="utf-8"?><!--<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--android:id="@+id/rf_home"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent">--><!--<pl.droidsonroids.gif.GifImageView--><!--android:layout_width="match_parent"--><!--android:layout_height="150dp"--><!--android:scaleType="centerCrop"--><!--android:src="@drawable/refresh_loading"--><!--app:layout_srlSpinnerStyle="Scale"--><!--app:layout_srlBackgroundColor="@android:color/transparent"/>-->
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/home"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+    <com.moxun.tagcloudlib.view.TagCloudView
+        android:id="@+id/tag_cloud"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fff">
-
-        <com.moxun.tagcloudlib.view.TagCloudView
-            android:id="@+id/tag_cloud"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:autoScrollMode="uniform"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:radiusPercent="1"
-            app:scrollSpeed="2" />
+        android:layout_marginBottom="50dp"
+        app:autoScrollMode="uniform"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:radiusPercent="0.8"
+        app:scrollSpeed="2" />
 
 
-        <com.scwang.wave.MultiWaveHeader
-            android:id="@+id/waveHeader"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            app:mwhCloseColor="@color/blue"
-            app:mwhStartColor="@color/yellow" />
+    <com.scwang.wave.MultiWaveHeader
+        android:id="@+id/waveHeader"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:mwhCloseColor="@color/blue"
+        app:mwhStartColor="@color/yellow" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:text="CO"
+        android:textColor="#fff"
+        android:textSize="27sp"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/textView"
+        android:layout_marginEnd="34dp"
+        android:layout_marginRight="34dp"
+        android:src="@mipmap/home_title_setting"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="40dp"
-            android:text="CO"
-            android:textColor="#fff"
-            android:textSize="27sp"
-            app:layout_constraintLeft_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
+            android:paddingLeft="18dp"
+            android:textColor="@color/blue"
+            android:paddingRight="18dp"
+            android:id="@+id/tv_macther"
+            android:background="@drawable/home_tv_radius_30dp"
+            android:text="让奶瓶帮你匹配"
+            android:layout_gravity="center"
+            android:paddingTop="5dp"
+            android:drawablePadding="8dp"
+            android:drawableLeft="@mipmap/home_milk"
+            android:paddingBottom="5dp"
+            android:gravity="center"
+            android:layout_alignBottom="@+id/tag_cloud"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="87dp" />
 
-        <ImageView
-            android:id="@+id/iv_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="45sp"
-            android:src="@mipmap/home_title_setting"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
-<!--</com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
+
+</RelativeLayout><!--</com.scwang.smartrefresh.layout.SmartRefreshLayout>-->

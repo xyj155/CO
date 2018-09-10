@@ -36,13 +36,16 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             //选择要添加的对应cpu类型的.so库。
             abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a'
             // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
         }
-
+        packagingOptions {
+            exclude 'META-INF/rxjava.properties'
+        }
         manifestPlaceholders = [
                 JPUSH_PKGNAME: applicationId,
                 JPUSH_APPKEY : "c17101d7cd70bdee3875810c", //JPush上注册的包名对应的appkey.
@@ -50,10 +53,6 @@ android {
         ]
     }
 
-    //dataBinding 数据绑定
-    dataBinding {
-        enabled true
-    }
     buildTypes {
         release {
             minifyEnabled false
@@ -67,12 +66,12 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile('com.android.support:appcompat-v7:25.3.1') {
+    compile('com.android.support:appcompat-v7:27.0.2') {
         force = true
     }
-    //noinspection GradleCompatible
-    //一个开源gif控件
-    //最新版本
+    compile('com.github.bumptech.glide:glide:4.5.0') {
+        force = true
+    }
     compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.5'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jakewharton:butterknife:5.1.1'
@@ -81,7 +80,6 @@ dependencies {
     compile 'com.scwang.wave:MultiWaveHeader:1.0.0-alpha-1'
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
     compile 'com.moxun:tagcloudlib:1.2.1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-11'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-11'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
@@ -93,6 +91,7 @@ dependencies {
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'
     compile 'com.amap.api:location:3.3.0'
+    compile 'com.amap.api:3dmap:5.0.0'
     compile 'cn.jiguang.sdk:jmessage:2.7.0'
     compile 'cn.jiguang.sdk:jpush:3.1.5'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.3'
@@ -100,5 +99,9 @@ dependencies {
     compile 'cn.jiguang.sdk:jcore:1.2.3'
     compile 'com.github.Jay-Goo:RangeSeekBar:v2.0.4'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'jp.wasabeef:glide-transformations:3.3.0'
     testCompile 'junit:junit:4.12'
+    compile project(path: ':picture_library')
 }

@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.campus.appointment.R;
+
 /**
  * Created by Administrator on 2018/7/9.
  */
@@ -61,8 +63,9 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void starActivity(Class var) {
-        Intent intent = new Intent(getContext(), var);
-        startActivity(intent);
+        Intent intent1 = new Intent(getContext(),var);
+        startActivity(intent1);
+        getActivity().overridePendingTransition(R.anim.activity_zoom_in, R.anim.activity_zoom_out);
     }
 }
 

@@ -65,7 +65,7 @@ public class UserFragment extends BaseFragment {
     protected void setUpView(View view, Bundle bundle) {
         ButterKnife.inject(this, view);
         SharedPreferences sp=getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-        Glide.with(getActivity()).load(sp.getString("head","")).asBitmap().error(R.mipmap.co).into(ivHead);
+        Glide.with(getActivity()).load(sp.getString("head","")).into(ivHead);
         Log.i(TAG, "setUpView: "+sp.getString("head",""));
         Log.i(TAG, "setUpView: "+sp.getString("username",""));
         tvUsername.setText(sp.getString("username",""));

@@ -1,13 +1,13 @@
 package com.campus.appointment.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -20,7 +20,9 @@ import com.campus.appointment.base.BaseGson;
 import com.campus.appointment.contract.home.HomeContract;
 import com.campus.appointment.gson.UserGson;
 import com.campus.appointment.presenter.home.HomePresenter;
+import com.campus.appointment.ui.activity.FloatBottleActivity;
 import com.campus.appointment.ui.activity.HomeSettingActivity;
+import com.campus.appointment.ui.activity.MatchUserActivity;
 import com.moxun.tagcloudlib.view.TagCloudView;
 import com.scwang.wave.MultiWaveHeader;
 
@@ -44,9 +46,13 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, AMa
     MultiWaveHeader waveHeader;
     @InjectView(R.id.iv_setting)
     ImageView ivSetting;
+    @InjectView(R.id.textView)
+    TextView textView;
+    @InjectView(R.id.tv_macther)
+    TextView flFloat;
     @InjectView(R.id.home)
-    ConstraintLayout home;
-//    @InjectView(R.id.rf_home)
+    RelativeLayout home;
+    //    @InjectView(R.id.rf_home)
 //    SmartRefreshLayout rfHome;
     private HomePresenter presenter;
     //声明mlocationClient对象
@@ -102,20 +108,22 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, AMa
 
         return rootView;
     }
+
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
         if (amapLocation != null) {
             if (amapLocation.getErrorCode() == 0) {
-                Log.i(TAG, "onLocationChanged: "+amapLocation.getLatitude()+"------"+amapLocation.getLongitude());
-                presenter.queryAroundByGEO("3", amapLocation.getCity(), String .valueOf( amapLocation.getLatitude()), String.valueOf(amapLocation.getLongitude()));
+                Log.i(TAG, "onLocationChanged: " + amapLocation.getLatitude() + "------" + amapLocation.getLongitude());
+                presenter.queryAroundByGEO("3", amapLocation.getCity(), String.valueOf(amapLocation.getLatitude()), String.valueOf(amapLocation.getLongitude()));
             } else {
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-                Log.e("AmapError","location Error, ErrCode:"
+                Log.e("AmapError", "location Error, ErrCode:"
                         + amapLocation.getErrorCode() + ", errInfo:"
                         + amapLocation.getErrorInfo());
             }
         }
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -127,7 +135,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, AMa
     @Override
     public void showTags(BaseGson<UserGson> list) {
         List<UserGson> groupGsons = new ArrayList<>();
-        Log.i(TAG, "showTags: "+groupGsons);
+        Log.i(TAG, "showTags: " + groupGsons);
         for (int i = 0; i < list.getData().size(); i++) {
             UserGson gson = new UserGson();
             gson.setHead(list.getData().get(i).getHead());
@@ -136,17 +144,24 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, AMa
             groupGsons.add(gson);
         }
         TagGroupAdapter adapter = new TagGroupAdapter(groupGsons, getActivity());
+        adapter.setOnItemClickListner(new TagGroupAdapter.OnClickInterface() {
+            @Override
+            public void OnItemClickListener() {
+                starActivity(MatchUserActivity.class);
+            }
+        });
         tagCloud.setAdapter(adapter);
         tagCloud.run();
     }
 
-    @OnClick({R.id.iv_setting})
+    @OnClick({R.id.iv_setting,R.id.tv_macther   })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_setting:
-                Intent intent1 = new Intent(getContext(), HomeSettingActivity.class);
-                startActivity(intent1);
-                getActivity().overridePendingTransition(R.anim.activity_zoom_in, R.anim.activity_zoom_out);
+                starActivity(HomeSettingActivity.class);
+                break;
+            case R.id.tv_macther:
+                starActivity(FloatBottleActivity.class);
                 break;
         }
     }

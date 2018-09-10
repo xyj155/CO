@@ -6,7 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff">
-
+    <com.scwang.wave.MultiWaveHeader
+        android:id="@+id/waveHeader"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        app:mwhCloseColor="@color/blue"
+        app:mwhStartColor="@color/yellow" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,7 +19,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="40dp"
         android:text="个人"
-        android:textColor="#000"
+        android:textColor="#fff"
         android:textSize="27sp"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="parent" />
@@ -104,7 +109,7 @@
         android:drawablePadding="8dp"
         android:gravity="center|left"
         android:paddingLeft="15sp"
-        android:text="我的订阅"
+        android:text="我的关注"
         android:textColor="#000"
         android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"

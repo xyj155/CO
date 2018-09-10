@@ -1,6 +1,6 @@
 package com.campus.appointment;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.mob.MobSDK;
 
@@ -8,7 +8,7 @@ import com.mob.MobSDK;
  * Created by Administrator on 2018/9/6/006.
  */
 
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
     public static MyApplication app = null;
 
     public static MyApplication getInstance() {

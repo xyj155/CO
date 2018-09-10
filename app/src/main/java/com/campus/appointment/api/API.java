@@ -2,6 +2,7 @@ package com.campus.appointment.api;
 
 
 import com.campus.appointment.base.BaseGson;
+import com.campus.appointment.gson.SquareGson;
 import com.campus.appointment.gson.UserGson;
 
 import retrofit2.http.Field;
@@ -29,8 +30,18 @@ public interface API {
     Observable<BaseGson<UserGson>> loginWithUserName(@Field("username") String username,
                                                      @Field("password") String password);    //注册
 
-    //注册
+    //QQ注册
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/User/loginByQQ")
     Observable<BaseGson<UserGson>> loginWithQQ(@Field("qqid") String qqid);    //登录
+
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/Post/queryPost")
+    Observable<BaseGson<SquareGson>> queryPost(@Field("uid") String uid);    //登录
+
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/Contact/getContactList")
+    Observable<BaseGson<UserGson>> getContactList(@Field("id") String uid);    //登录
 }
