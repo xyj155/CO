@@ -51,6 +51,31 @@ public class SquarePresenter implements SquareContract.Presenter {
     }
 
     @Override
+    public void updateThumb(String uid, String pid) {
+        model.updateThumb(uid,pid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<BaseGson<EmptyGson>>() {
+                    @Override
+                    public void onError(String error) {
+                        ToastUtil.showToastError("点赞失败" + error);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseGson<EmptyGson> listBaseGson) {
+                        if (listBaseGson.isSuccess()) {
+                            view.updateThumb(listBaseGson.getData());
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void sendReport(String uid, String type, String post_id) {
         model.sendReport(uid,type,post_id)
                 .subscribeOn(Schedulers.io())
@@ -68,6 +93,7 @@ public class SquarePresenter implements SquareContract.Presenter {
 
                     @Override
                     public void onNext(BaseGson<EmptyGson> listBaseGson) {
+
                         if (listBaseGson.isSuccess()) {
                             view.sendReport(listBaseGson.getData());
                         }

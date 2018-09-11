@@ -40,6 +40,13 @@ public class ToastUtil {
     }
 
     /**
+     * 点赞Toast
+     * @param message
+     */
+    public static void showToastSuccessThumb(String message,int resource) {
+        Toasty.success(getApplicationContext(), message,Toast.LENGTH_SHORT,resource, true).show();
+    }
+    /**
      * 信息提示
      * @param message
      */

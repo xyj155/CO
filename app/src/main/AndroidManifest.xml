@@ -146,11 +146,7 @@
         <service android:name="com.amap.api.location.APSService" />
         <!-- 高德定位 -->
         <activity android:name=".ui.activity.HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ui.activity.UserSettingActivity" />
         <activity android:name=".Test" />
@@ -162,7 +158,14 @@
         <activity android:name=".ui.activity.FloatBottleActivity" />
         <activity android:name=".ui.activity.EditPostActivity" />
         <activity android:name=".ui.activity.SendBugsReportActivity" />
-        <activity android:name=".ui.activity.UserDynamicActivity"></activity>
+        <activity android:name=".ui.activity.UserDynamicActivity" />
+        <activity android:name=".ui.activity.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

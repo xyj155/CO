@@ -205,7 +205,11 @@ public class Toasty {
         return custom(context, context.getString(message), ToastyUtils.getDrawable(context, R.drawable.ic_check_white_48dp),
                 SUCCESS_COLOR, duration, withIcon, true);
     }
-
+    @CheckResult
+    public static Toast success(@NonNull Context context,  @NonNull CharSequence message, int duration, int drawable, boolean withIcon) {
+        return custom(context, message, ToastyUtils.getDrawable(context, drawable),
+                SUCCESS_COLOR, duration, withIcon, true);
+    }
     @CheckResult
     public static Toast success(@NonNull Context context, @NonNull CharSequence message, int duration, boolean withIcon) {
         return custom(context, message, ToastyUtils.getDrawable(context, R.drawable.ic_check_white_48dp),

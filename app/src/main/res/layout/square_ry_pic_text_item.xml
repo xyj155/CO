@@ -88,11 +88,41 @@
         android:paddingLeft="30dp"
         android:paddingBottom="7dp"
         android:paddingTop="13dp">
-        <ImageView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/iv_comment"
-            android:src="@mipmap/square_comment"/>
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/iv_comment"
+                android:src="@mipmap/square_comment"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="5"
+                android:gravity="center"
+                android:id="@+id/tv_comment_count"
+                android:layout_marginLeft="8dp"
+                android:layout_height="match_parent" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:id="@+id/rb_thumb"
+                android:background="@drawable/square_thumb_radiobutton_bg"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/iv_comment"
+                android:layout_toEndOf="@+id/iv_comment"
+                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/tv_thumb_count"
+                android:text="10"
+                android:gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"

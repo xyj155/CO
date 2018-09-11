@@ -20,6 +20,8 @@ public interface SquareContract {
                                                    String type,
                                                    String post_id);
 
+        Observable<BaseGson<EmptyGson>> updateThumb(String uid,
+                                                   String pid);
 
     }
 
@@ -27,10 +29,14 @@ public interface SquareContract {
         void squareUserActive(List<SquareGson> squareGsons);
 
         void sendReport(List<EmptyGson> squareGsons);
+
+        void updateThumb(List<EmptyGson> squareGsons);
     }
 
     interface Presenter {
         void squareUserActive(String uid);
+        void updateThumb(String uid,
+                         String pid);
 
         void sendReport(String uid,
                         String type,

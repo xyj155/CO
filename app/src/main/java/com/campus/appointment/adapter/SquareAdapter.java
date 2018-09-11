@@ -4,8 +4,11 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -54,8 +57,8 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, final SquareEntity item) {
-        int itemType = item.getItemType();
+    protected void convert(final BaseViewHolder helper, final SquareEntity item) {
+        final int itemType = item.getItemType();
         switch (itemType) {
             case SquareEntity.TYPE_TEXT_TYPE:
 
@@ -72,6 +75,7 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
                 ryPicList.setAdapter(adapter);
                 break;
         }
+
         ImageView report = helper.getView(R.id.iv_report);
         ImageView comment = helper.getView(R.id.iv_comment);
         comment.setOnClickListener(new View.OnClickListener() {
@@ -102,28 +106,28 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
                                         new ActionSheetDialog.OnSheetItemClickListener() {
                                             @Override
                                             public void onClick(int which) {
-                                                presenter.sendReport(String .valueOf(item.getSquareMsgGson().getUid()), "不文明用语",String .valueOf(item.getSquareMsgGson().getId()));
+                                                presenter.sendReport(String.valueOf(item.getSquareMsgGson().getUid()), "不文明用语", String.valueOf(item.getSquareMsgGson().getId()));
                                             }
                                         })
                                 .addSheetItem("广告", ActionSheetDialog.SheetItemColor.Blue,
                                         new ActionSheetDialog.OnSheetItemClickListener() {
                                             @Override
                                             public void onClick(int which) {
-                                                presenter.sendReport(String .valueOf(item.getSquareMsgGson().getUid()), "广告",String .valueOf(item.getSquareMsgGson().getId()));
+                                                presenter.sendReport(String.valueOf(item.getSquareMsgGson().getUid()), "广告", String.valueOf(item.getSquareMsgGson().getId()));
                                             }
                                         })
                                 .addSheetItem("恶意骚扰", ActionSheetDialog.SheetItemColor.Blue,
                                         new ActionSheetDialog.OnSheetItemClickListener() {
                                             @Override
                                             public void onClick(int which) {
-                                                presenter.sendReport(String .valueOf(item.getSquareMsgGson().getUid()), "恶意骚扰",String .valueOf(item.getSquareMsgGson().getId()));
+                                                presenter.sendReport(String.valueOf(item.getSquareMsgGson().getUid()), "恶意骚扰", String.valueOf(item.getSquareMsgGson().getId()));
                                             }
                                         })
                                 .addSheetItem("谩骂，诽谤", ActionSheetDialog.SheetItemColor.Blue,
                                         new ActionSheetDialog.OnSheetItemClickListener() {
                                             @Override
                                             public void onClick(int which) {
-                                                presenter.sendReport(String .valueOf(item.getSquareMsgGson().getUid()), "谩骂，诽谤",String .valueOf(item.getSquareMsgGson().getId()));
+                                                presenter.sendReport(String.valueOf(item.getSquareMsgGson().getUid()), "谩骂，诽谤", String.valueOf(item.getSquareMsgGson().getId()));
                                             }
                                         })
                                 .show();
@@ -131,9 +135,25 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
                 }).show();
             }
         });
+        Log.i(TAG, "getThumb: " + item.getSquareMsgGson().getThumb());
+        Log.i(TAG, "convert: " + item.getSquareMsgGson().getComment());
         helper.setText(R.id.tv_username, item.getSquareMsgGson().getUser().getUsername())
                 .setText(R.id.tv_time, "发布于： " + item.getSquareMsgGson().getLocation())
-                .setText(R.id.tv_title, item.getSquareMsgGson().getTitle());
+                .setText(R.id.tv_title, item.getSquareMsgGson().getTitle())
+                .setText(R.id.tv_thumb_count, item.getSquareMsgGson().getThumb() + "")
+                .setText(R.id.tv_comment_count, item.getSquareMsgGson().getComment() + "")
+                .setChecked(R.id.rb_thumb, item.getSquareMsgGson().isLike())
+                .setOnCheckedChangeListener(R.id.rb_thumb, new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            TextView view = helper.getView(R.id.tv_thumb_count);
+                            view.setText((item.getSquareMsgGson().getThumb() + 1) + "");
+                            Log.i(TAG, "onCheckedChanged: " + item.getSquareMsgGson().getId());
+                            presenter.updateThumb("3", String.valueOf(item.getSquareMsgGson().getId()));
+                        }
+                    }
+                });
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .circleCrop()//设置圆形
@@ -161,6 +181,11 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
         ToastUtil.showToastSuccess("举报成功");
     }
 
+    @Override
+    public void updateThumb(List<EmptyGson> squareGsons) {
+        ToastUtil.showToastSuccessThumb("谢谢点赞！",R.mipmap.square_love);
+    }
+
     private class SquareMsgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
         public SquareMsgAdapter(@Nullable List<String> data) {
@@ -181,4 +206,6 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
                     .transition(DrawableTransitionOptions.withCrossFade()).apply(options).into(imageView);
         }
     }
+
+
 }

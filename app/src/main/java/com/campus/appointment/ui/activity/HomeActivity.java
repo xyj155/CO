@@ -1,6 +1,7 @@
 package com.campus.appointment.ui.activity;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
@@ -13,6 +14,7 @@ import com.campus.appointment.ui.fragment.FriendsFragment;
 import com.campus.appointment.ui.fragment.HomeFragment;
 import com.campus.appointment.ui.fragment.SquareFragment;
 import com.campus.appointment.ui.fragment.UserFragment;
+import com.luck.picture.lib.permissions.RxPermissions;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -36,6 +38,12 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     @Override
     public int intiLayout() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     @Override

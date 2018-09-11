@@ -160,20 +160,27 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
         Log.i(TAG, "squareUserActive: " + squareGsons);
         List<SquareEntity> list = new ArrayList<>();
         Log.i(TAG, "squareUserActive: " + squareGsons.size());
-            for (int i = 0; i < squareGsons.size(); i++) {
-                SquareGson squareGson = new SquareGson();
-                squareGson.setTitle(squareGsons.get(i).getTitle());
-                squareGson.setLocation(squareGsons.get(i).getLocation());
-                squareGson.setUser(squareGsons.get(i).getUser());
-                squareGson.setWritetime(squareGsons.get(i).getWritetime());
-                if (squareGsons.get(i).getPic_size()>0){
-                    squareGson.setPics(squareGsons.get(i).getPics());
-                    squareGson.setPic_size(squareGsons.get(i).getPic_size());
-                    list.add(new SquareEntity(2, squareGson));
-                }else {
-                    list.add(new SquareEntity(1, squareGson));
-                }
+        for (int i = 0; i < squareGsons.size(); i++) {
+            SquareGson squareGson = new SquareGson();
+            squareGson.setTitle(squareGsons.get(i).getTitle());
+            squareGson.setLocation(squareGsons.get(i).getLocation());
+            squareGson.setUser(squareGsons.get(i).getUser());
+            squareGson.setComment(squareGson.getComment());
+            Log.i(TAG, "getComment: "+squareGsons.get(i).getComment());
+            Log.i(TAG, "getThumb: "+squareGsons.get(i).getThumb());
+            squareGson.setLike(squareGsons.get(i).isLike());
+            squareGson.setThumb(squareGsons.get(i).getThumb());
+            Log.i(TAG, "squareUserActive: "+squareGsons.get(i).getId());
+            squareGson.setId(squareGsons.get(i).getId());
+            squareGson.setWritetime(squareGsons.get(i).getWritetime());
+            if (squareGsons.get(i).getPic_size() > 0) {
+                squareGson.setPics(squareGsons.get(i).getPics());
+                squareGson.setPic_size(squareGsons.get(i).getPic_size());
+                list.add(new SquareEntity(2, squareGson));
+            } else {
+                list.add(new SquareEntity(1, squareGson));
             }
+        }
         SquareAdapter adapter = new SquareAdapter(list, getActivity());
         rySquare.setAdapter(adapter);
     }
@@ -183,12 +190,17 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
 
     }
 
+    @Override
+    public void updateThumb(List<EmptyGson> squareGsons) {
+
+    }
+
     @OnClick({R.id.fb_square})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fb_square:
-                Intent intent=new Intent(getContext(),EditPostActivity.class);
-                startActivityForResult(intent,0);
+                Intent intent = new Intent(getContext(), EditPostActivity.class);
+                startActivityForResult(intent, 0);
                 break;
         }
     }
@@ -196,7 +208,7 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode){
+        switch (resultCode) {
             case 0:
                 squarePresenter.squareUserActive("3");
                 break;

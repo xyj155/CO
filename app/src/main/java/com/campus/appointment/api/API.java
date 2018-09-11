@@ -76,4 +76,10 @@ public interface API {
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/Post/querySingleUserPost")
     Observable<BaseGson<SquareGson>> querySingleUserPost(@Field("uid")     String uid);    //个人动态
+
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/Post/updateThumb")
+    Observable<BaseGson<EmptyGson>> updateThumb(@Field("uid")  String uid,
+                                                @Field("pid")  String pid);    //个人动态
 }

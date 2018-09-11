@@ -22,4 +22,9 @@ public class SquareModel implements SquareContract.Model {
     public Observable<BaseGson<EmptyGson>> sendReport(String uid, String type, String post_id) {
         return RetrofitUtil.getInstance(RetrofitUtil.BASE_URL).getServerices().sendReport(uid,type,post_id);
     }
+
+    @Override
+    public Observable<BaseGson<EmptyGson>> updateThumb(String uid, String pid) {
+        return RetrofitUtil.getInstance(RetrofitUtil.BASE_URL).getServerices().updateThumb(uid,pid);
+    }
 }
