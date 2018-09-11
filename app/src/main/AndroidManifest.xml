@@ -161,7 +161,8 @@
         <activity android:name=".ui.activity.MatchUserActivity" />
         <activity android:name=".ui.activity.FloatBottleActivity" />
         <activity android:name=".ui.activity.EditPostActivity" />
-        <activity android:name=".ui.activity.SendBugsReportActivity"></activity>
+        <activity android:name=".ui.activity.SendBugsReportActivity" />
+        <activity android:name=".ui.activity.UserDynamicActivity"></activity>
     </application>
 
 </manifest>

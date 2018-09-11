@@ -41,6 +41,7 @@ public class UserPresenter implements UserContract.Presenter {
                     @Override
                     public void onNext(BaseGson<EmptyGson> emptyGsonBaseGson) {
                         if (emptyGsonBaseGson.isSuccess()) {
+                            view.sendBugs();
                             ToastUtil.showToastSuccess("反馈成功");
                         } else {
                             ToastUtil.showToastError("反馈失败");

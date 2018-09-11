@@ -99,7 +99,7 @@
         android:drawablePadding="8dp"
         android:gravity="center|left"
         android:paddingLeft="15sp"
-        android:text="我的订阅"
+        android:text="我的动态"
         android:textColor="#000"
         android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"

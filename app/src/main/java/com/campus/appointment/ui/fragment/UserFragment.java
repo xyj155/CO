@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.campus.appointment.R;
 import com.campus.appointment.base.BaseFragment;
 import com.campus.appointment.ui.activity.SendBugsReportActivity;
+import com.campus.appointment.ui.activity.UserDynamicActivity;
 import com.campus.appointment.ui.activity.UserSettingActivity;
 import com.campus.appointment.weight.CircleImageView;
 import com.scwang.wave.MultiWaveHeader;
@@ -111,6 +112,7 @@ public class UserFragment extends BaseFragment {
             case R.id.user_tv_user_infor:
                 break;
             case R.id.user_tv_book:
+                starActivity(UserDynamicActivity.class);
                 break;
             case R.id.user_tv_observer:
                 break;

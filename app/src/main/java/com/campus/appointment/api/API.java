@@ -72,4 +72,8 @@ public interface API {
     @POST("/CO/public/index.php/index/User/sendAppReport")
     Observable<BaseGson<EmptyGson>> sendAppReport(@Field("uid")     String uid,
                                                @Field("content")     String content);    //上传错误
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/Post/querySingleUserPost")
+    Observable<BaseGson<SquareGson>> querySingleUserPost(@Field("uid")     String uid);    //个人动态
 }
