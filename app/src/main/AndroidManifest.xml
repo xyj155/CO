@@ -156,11 +156,12 @@
         <activity android:name=".Test" />
         <activity android:name=".ui.activity.HomeSettingActivity" />
         <activity android:name=".ui.activity.TelLoginActivity" />
-        <activity android:name=".ui.activity.AppIndexActivity"></activity>
+        <activity android:name=".ui.activity.AppIndexActivity" />
         <activity android:name=".ui.activity.SMSCodeActivity" />
         <activity android:name=".ui.activity.MatchUserActivity" />
         <activity android:name=".ui.activity.FloatBottleActivity" />
-        <activity android:name=".ui.activity.EditPostActivity"></activity>
+        <activity android:name=".ui.activity.EditPostActivity" />
+        <activity android:name=".ui.activity.SendBugsReportActivity"></activity>
     </application>
 
 </manifest>

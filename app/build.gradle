@@ -72,6 +72,7 @@ dependencies {
     compile('com.github.bumptech.glide:glide:4.5.0') {
         force = true
     }
+    compile project(path: ':picture_library')
     compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.5'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jakewharton:butterknife:5.1.1'
@@ -103,5 +104,4 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'jp.wasabeef:glide-transformations:3.3.0'
     testCompile 'junit:junit:4.12'
-    compile project(path: ':picture_library')
 }

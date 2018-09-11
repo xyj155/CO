@@ -2,6 +2,7 @@ package com.campus.appointment.presenter.home;
 
 import com.campus.appointment.base.BaseGson;
 import com.campus.appointment.base.BaseObserver;
+import com.campus.appointment.base.EmptyGson;
 import com.campus.appointment.base.ToastUtil;
 import com.campus.appointment.contract.home.SquareContract;
 import com.campus.appointment.gson.SquareGson;
@@ -44,6 +45,31 @@ public class SquarePresenter implements SquareContract.Presenter {
                     public void onNext(BaseGson<SquareGson> listBaseGson) {
                         if (listBaseGson.isSuccess()) {
                             view.squareUserActive(listBaseGson.getData());
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void sendReport(String uid, String type, String post_id) {
+        model.sendReport(uid,type,post_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<BaseGson<EmptyGson>>() {
+                    @Override
+                    public void onError(String error) {
+                        ToastUtil.showToastError("系统错误" + error);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseGson<EmptyGson> listBaseGson) {
+                        if (listBaseGson.isSuccess()) {
+                            view.sendReport(listBaseGson.getData());
                         }
                     }
                 });

@@ -12,7 +12,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.campus.appointment.R;
+import com.campus.appointment.base.EmptyGson;
+import com.campus.appointment.base.ToastUtil;
+import com.campus.appointment.contract.home.SquareContract;
 import com.campus.appointment.entity.SquareEntity;
+import com.campus.appointment.gson.SquareGson;
+import com.campus.appointment.presenter.home.SquarePresenter;
+import com.campus.appointment.weight.iosDialog.ActionSheetDialog;
 import com.campus.appointment.weight.iosDialog.AlertDialog;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -27,7 +33,7 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
  * Created by Administrator on 2018/9/8/008.
  */
 
-public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseViewHolder> {
+public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseViewHolder> implements SquareContract.View {
 
 
     /**
@@ -37,12 +43,14 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
      * @param data A new list is created out of this one to avoid mutable list
      */
     private Context context;
+    private SquarePresenter presenter;
 
     public SquareAdapter(List<SquareEntity> data, Context context) {
         super(data);
         this.context = context;
         addItemType(SquareEntity.TYPE_TEXT_TYPE, R.layout.square_ry_text_item);
         addItemType(SquareEntity.TYPE_PIC_MESSAGE_TYPE, R.layout.square_ry_pic_text_item);
+        presenter = new SquarePresenter(this);
     }
 
     @Override
@@ -75,17 +83,50 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog(context).builder().setTitle("举报用户")
-                        .setMsg("举报"+item.getSquareMsgGson().getUser().getUsername()+"用户")
-                        .setNegativeButton("确定", new View.OnClickListener() {
+                new AlertDialog(context).builder().setTitle("举报")
+                        .setMsg("举报用户: " + item.getSquareMsgGson().getUser().getUsername())
+                        .setNegativeButton("取消", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
 
                             }
-                        }).setPositiveButton("取消", new View.OnClickListener() {
+                        }).setPositiveButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        new ActionSheetDialog(context)
+                                .builder()
+                                .setCancelable(false)
+                                .setTitle("请选择举报类型")
+                                .setCanceledOnTouchOutside(false)
+                                .addSheetItem("不文明用语", ActionSheetDialog.SheetItemColor.Blue,
+                                        new ActionSheetDialog.OnSheetItemClickListener() {
+                                            @Override
+                                            public void onClick(int which) {
+                                                presenter.sendReport(String .valueOf(item.getSquareMsgGson().getUid()), "不文明用语",String .valueOf(item.getSquareMsgGson().getId()));
+                                            }
+                                        })
+                                .addSheetItem("广告", ActionSheetDialog.SheetItemColor.Blue,
+                                        new ActionSheetDialog.OnSheetItemClickListener() {
+                                            @Override
+                                            public void onClick(int which) {
+                                                presenter.sendReport(String .valueOf(item.getSquareMsgGson().getUid()), "广告",String .valueOf(item.getSquareMsgGson().getId()));
+                                            }
+                                        })
+                                .addSheetItem("恶意骚扰", ActionSheetDialog.SheetItemColor.Blue,
+                                        new ActionSheetDialog.OnSheetItemClickListener() {
+                                            @Override
+                                            public void onClick(int which) {
+                                                presenter.sendReport(String .valueOf(item.getSquareMsgGson().getUid()), "恶意骚扰",String .valueOf(item.getSquareMsgGson().getId()));
+                                            }
+                                        })
+                                .addSheetItem("谩骂，诽谤", ActionSheetDialog.SheetItemColor.Blue,
+                                        new ActionSheetDialog.OnSheetItemClickListener() {
+                                            @Override
+                                            public void onClick(int which) {
+                                                presenter.sendReport(String .valueOf(item.getSquareMsgGson().getUid()), "谩骂，诽谤",String .valueOf(item.getSquareMsgGson().getId()));
+                                            }
+                                        })
+                                .show();
                     }
                 }).show();
             }
@@ -108,6 +149,16 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
                 Glide.with(context).load(R.mipmap.square_sex_girl).into((ImageView) helper.getView(R.id.iv_sex));
                 break;
         }
+    }
+
+    @Override
+    public void squareUserActive(List<SquareGson> squareGsons) {
+
+    }
+
+    @Override
+    public void sendReport(List<EmptyGson> squareGsons) {
+        ToastUtil.showToastSuccess("举报成功");
     }
 
     private class SquareMsgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {

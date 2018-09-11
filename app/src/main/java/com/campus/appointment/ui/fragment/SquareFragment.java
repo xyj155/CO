@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.campus.appointment.R;
 import com.campus.appointment.adapter.SquareAdapter;
 import com.campus.appointment.base.BaseFragment;
+import com.campus.appointment.base.EmptyGson;
 import com.campus.appointment.contract.home.SquareContract;
 import com.campus.appointment.entity.SquareEntity;
 import com.campus.appointment.gson.SquareGson;
@@ -175,6 +176,11 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
             }
         SquareAdapter adapter = new SquareAdapter(list, getActivity());
         rySquare.setAdapter(adapter);
+    }
+
+    @Override
+    public void sendReport(List<EmptyGson> squareGsons) {
+
     }
 
     @OnClick({R.id.fb_square})

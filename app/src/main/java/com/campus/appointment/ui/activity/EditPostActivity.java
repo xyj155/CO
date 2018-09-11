@@ -214,8 +214,8 @@ public class EditPostActivity extends BaseActivity implements EditPostContract.V
     protected void onDestroy() {
         super.onDestroy();
         Intent intent=new Intent(EditPostActivity.this,HomeActivity.class);
-        startActivity(intent);
         setResult(0,intent);
+        finish();
     }
 
     @Override

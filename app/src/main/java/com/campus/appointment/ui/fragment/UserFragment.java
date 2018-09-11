@@ -8,13 +8,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.campus.appointment.R;
 import com.campus.appointment.base.BaseFragment;
+import com.campus.appointment.ui.activity.SendBugsReportActivity;
 import com.campus.appointment.ui.activity.UserSettingActivity;
 import com.campus.appointment.weight.CircleImageView;
+import com.scwang.wave.MultiWaveHeader;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -46,6 +49,10 @@ public class UserFragment extends BaseFragment {
     TextView userTvSetting;
     @InjectView(R.id.user)
     ConstraintLayout user;
+    @InjectView(R.id.waveHeader)
+    MultiWaveHeader waveHeader;
+    @InjectView(R.id.tv_send_bug)
+    ImageView tvSendBug;
 
     public static synchronized UserFragment getInstance() {
         if (instance == null) {
@@ -61,14 +68,15 @@ public class UserFragment extends BaseFragment {
     }
 
     private static final String TAG = "UserFragment";
+
     @Override
     protected void setUpView(View view, Bundle bundle) {
         ButterKnife.inject(this, view);
-        SharedPreferences sp=getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-        Glide.with(getActivity()).load(sp.getString("head","")).into(ivHead);
-        Log.i(TAG, "setUpView: "+sp.getString("head",""));
-        Log.i(TAG, "setUpView: "+sp.getString("username",""));
-        tvUsername.setText(sp.getString("username",""));
+        SharedPreferences sp = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+        Glide.with(getActivity()).load(sp.getString("head", "")).into(ivHead);
+        Log.i(TAG, "setUpView: " + sp.getString("head", ""));
+        Log.i(TAG, "setUpView: " + sp.getString("username", ""));
+        tvUsername.setText(sp.getString("username", ""));
     }
 
     @Override
@@ -80,6 +88,7 @@ public class UserFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.inject(this, rootView);
         return rootView;
     }
 
@@ -89,9 +98,12 @@ public class UserFragment extends BaseFragment {
         ButterKnife.reset(this);
     }
 
-    @OnClick({R.id.iv_head, R.id.tv_username, R.id.user_tv_user_infor, R.id.user_tv_book, R.id.user_tv_observer, R.id.user_tv_setting})
+    @OnClick({R.id.tv_send_bug, R.id.iv_head, R.id.tv_username, R.id.user_tv_user_infor, R.id.user_tv_book, R.id.user_tv_observer, R.id.user_tv_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tv_send_bug:
+                starActivity(SendBugsReportActivity.class);
+                break;
             case R.id.iv_head:
                 break;
             case R.id.tv_username:

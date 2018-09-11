@@ -39,7 +39,7 @@ public interface API {
     Observable<BaseGson<UserGson>> loginWithUserName(@Field("username") String username,
                                                      @Field("password") String password);    //注册
 
-    //QQ注册
+    //QQ登陆
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/User/loginByQQ")
     Observable<BaseGson<UserGson>> loginWithQQ(@Field("qqid") String qqid);    //登录
@@ -47,12 +47,12 @@ public interface API {
 
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/Post/queryPost")
-    Observable<BaseGson<SquareGson>> queryPost(@Field("uid") String uid);    //登录
+    Observable<BaseGson<SquareGson>> queryPost(@Field("uid") String uid);    //获取post列表
 
 
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/Contact/getContactList")
-    Observable<BaseGson<UserGson>> getContactList(@Field("id") String uid);    //登录
+    Observable<BaseGson<UserGson>> getContactList(@Field("id") String uid);    //获取联系人列表
 
 
     @Multipart
@@ -60,4 +60,16 @@ public interface API {
     Observable<BaseGson<EmptyGson>> uploadPost(
             @PartMap() Map<String, RequestBody> partMap  ,
             @Part      List<MultipartBody.Part> file    );
+
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/Post/sendReport")
+    Observable<BaseGson<EmptyGson>> sendReport(@Field("uid")     String uid,
+                                              @Field("type")     String type,
+                                              @Field("post_id")  String post_id);    //获取联系人列表
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/User/sendAppReport")
+    Observable<BaseGson<EmptyGson>> sendAppReport(@Field("uid")     String uid,
+                                               @Field("content")     String content);    //上传错误
 }

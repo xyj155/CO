@@ -25,9 +25,7 @@
     <com.scwang.wave.MultiWaveHeader
         android:id="@+id/waveHeader"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:mwhCloseColor="@color/blue"
-        app:mwhStartColor="@color/yellow" />
+        android:layout_height="150dp" />
 
     <TextView
         android:id="@+id/textView"
