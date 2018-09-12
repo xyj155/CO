@@ -61,6 +61,7 @@ public class EditPostActivity extends BaseActivity implements EditPostContract.V
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        setIsshowtitle(true);
         ButterKnife.inject(this);
         FullyGridLayoutManager manager = new FullyGridLayoutManager(EditPostActivity.this, 3, GridLayoutManager.VERTICAL, false);
         recycler.setLayoutManager(manager);
@@ -80,7 +81,7 @@ public class EditPostActivity extends BaseActivity implements EditPostContract.V
         @Override
         public void onAddPicClick() {
             PictureSelector.create(EditPostActivity.this)
-                    .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                    .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、bottom_pic.ofImage()、视频.ofVideo()、音频.ofAudio()
                     .theme(R.style.picture_white_style)// 主题样式设置 具体参考 values/styles   用法：R.style.picture.white.style
                     .maxSelectNum(9)// 最大图片选择数量
                     .minSelectNum(1)// 最小选择数量

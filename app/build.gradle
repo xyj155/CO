@@ -28,12 +28,8 @@ MobSDK {
     }
 }
 android {
-    signingConfigs {
-        config {
-        }
-    }
     compileSdkVersion 28
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.campus.appointment"
         minSdkVersion 16
@@ -97,6 +93,7 @@ dependencies {
     compile 'com.amap.api:location:3.3.0'
     compile 'com.amap.api:3dmap:5.0.0'
     compile 'cn.jiguang.sdk:jmessage:2.7.0'
+    compile 'cn.jiguang.sdk:jcore:1.2.3'
     compile 'cn.jiguang.sdk:jpush:3.1.5'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.3'
     compile 'com.youth.banner:banner:1.4.10'

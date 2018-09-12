@@ -18,6 +18,7 @@ import com.campus.appointment.base.BaseFragment;
 import com.campus.appointment.contract.home.FriendsContract;
 import com.campus.appointment.gson.UserGson;
 import com.campus.appointment.presenter.home.FriendsPresenter;
+import com.campus.appointment.ui.activity.ConversationActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -118,8 +119,14 @@ public class FriendsFragment extends BaseFragment implements FriendsContract.Vie
         @Override
         protected void convert(BaseViewHolder helper, UserGson item) {
             helper.setText(R.id.tv_username, item.getUsername())
-                    .setText(R.id.tv_msg, item.getTel());
-            Glide.with(getActivity()).load(item.getHead()).into((ImageView) helper.getView(R.id.iv_head));
+                    .setText(R.id.tv_msg, item.getTel())
+            .setOnClickListener(R.id.item_friends, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    starActivity(ConversationActivity.class);
+                }
+            });
+            Glide.with(getActivity()).load(item.getAvatar()).into((ImageView) helper.getView(R.id.iv_head));
         }
     }
 }

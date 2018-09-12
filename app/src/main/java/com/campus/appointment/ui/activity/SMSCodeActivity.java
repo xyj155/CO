@@ -80,6 +80,7 @@ public class SMSCodeActivity extends BaseActivity {
     @Override
     public void initView(Bundle savedInstanceState) {
         ButterKnife.inject(this);
+        setIsshowtitle(true);
         tvSend.start(SMSCodeActivity.this, 60);
         tvSend.setOnCountDownListener(new VerificationCodeView.Countdown() {
             @Override

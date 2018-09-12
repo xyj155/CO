@@ -46,6 +46,7 @@ public class UserDynamicActivity extends BaseActivity implements UserDynamicCont
     @Override
     public void initView(Bundle savedInstanceState) {
         ButterKnife.inject(this);
+        setIsshowtitle(true);
         rySingleUserDynamic.setLayoutManager(new LinearLayoutManager(UserDynamicActivity.this));
     }
 

@@ -143,7 +143,8 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, AMa
         Log.i(TAG, "showTags: " + groupGsons);
         for (int i = 0; i < list.getData().size(); i++) {
             UserGson gson = new UserGson();
-            gson.setHead(list.getData().get(i).getHead());
+            gson.setAvatar(list.getData().get(i).getAvatar());
+            Log.i(TAG, "showTags: "+list.getData().get(i).getAvatar());
             gson.setUsername(list.getData().get(i).getUsername());
             Log.i(TAG, "showTags: " + list.getData().get(i).getUsername());
             groupGsons.add(gson);

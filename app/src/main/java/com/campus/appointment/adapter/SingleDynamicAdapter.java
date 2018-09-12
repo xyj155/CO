@@ -99,7 +99,7 @@ public class SingleDynamicAdapter extends BaseMultiItemQuickAdapter<SquareEntity
                 .placeholder(R.mipmap.co)
                 .error(R.mipmap.co)
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(context).load(item.getSquareMsgGson().getUser().getHead()).apply(options).into((ImageView) helper.getView(R.id.iv_head));
+        Glide.with(context).load(item.getSquareMsgGson().getUser().getAvatar()).apply(options).into((ImageView) helper.getView(R.id.iv_head));
         switch (item.getSquareMsgGson().getUser().getSex()) {
             case 1:
                 Glide.with(context).load(R.mipmap.square_sex_boy).into((ImageView) helper.getView(R.id.iv_sex));

@@ -1,6 +1,7 @@
 package com.campus.appointment.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.campus.appointment.contract.home.SquareContract;
 import com.campus.appointment.entity.SquareEntity;
 import com.campus.appointment.gson.SquareGson;
 import com.campus.appointment.presenter.home.SquarePresenter;
+import com.campus.appointment.ui.activity.UserPostDetailActivity;
 import com.campus.appointment.weight.iosDialog.ActionSheetDialog;
 import com.campus.appointment.weight.iosDialog.AlertDialog;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -153,6 +155,16 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
                             presenter.updateThumb("3", String.valueOf(item.getSquareMsgGson().getId()));
                         }
                     }
+                })
+                .setOnClickListener(R.id.ll_item, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, UserPostDetailActivity.class);
+                        intent.putExtra("uid", "3");
+                        intent.putExtra("id", String.valueOf(item.getSquareMsgGson().getId()));
+                        intent.putExtra("puid", item.getSquareMsgGson().getUid());
+                        context.startActivity(intent);
+                    }
                 });
         RequestOptions options = new RequestOptions()
                 .centerCrop()
@@ -160,7 +172,7 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
                 .placeholder(R.mipmap.co)
                 .error(R.mipmap.co)
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(context).load(item.getSquareMsgGson().getUser().getHead()).apply(options).into((ImageView) helper.getView(R.id.iv_head));
+        Glide.with(context).load(item.getSquareMsgGson().getUser().getAvatar()).apply(options).into((ImageView) helper.getView(R.id.iv_head));
         switch (item.getSquareMsgGson().getUser().getSex()) {
             case 1:
                 Glide.with(context).load(R.mipmap.square_sex_boy).into((ImageView) helper.getView(R.id.iv_sex));
@@ -183,7 +195,7 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
 
     @Override
     public void updateThumb(List<EmptyGson> squareGsons) {
-        ToastUtil.showToastSuccessThumb("谢谢点赞！",R.mipmap.square_love);
+
     }
 
     private class SquareMsgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {

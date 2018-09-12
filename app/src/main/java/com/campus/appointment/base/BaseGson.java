@@ -62,5 +62,5 @@ public class BaseGson<T> {
         this.data = data;
     }
 
-  
+
 }

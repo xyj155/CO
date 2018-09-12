@@ -32,6 +32,7 @@ public class SendBugsReportActivity extends BaseActivity implements UserContract
     @Override
     public void initView(Bundle savedInstanceState) {
         userPresenter = new UserPresenter(this);
+        setIsshowtitle(true);
     }
 
     @Override

@@ -23,6 +23,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        setIsshowtitle(true);
         if (rxPermissions == null) {
             rxPermissions = new RxPermissions(SplashActivity.this);
         }

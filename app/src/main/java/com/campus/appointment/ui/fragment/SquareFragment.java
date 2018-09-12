@@ -172,6 +172,7 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
             squareGson.setThumb(squareGsons.get(i).getThumb());
             Log.i(TAG, "squareUserActive: "+squareGsons.get(i).getId());
             squareGson.setId(squareGsons.get(i).getId());
+            squareGson.setUid(squareGsons.get(i).getUid());
             squareGson.setWritetime(squareGsons.get(i).getWritetime());
             if (squareGsons.get(i).getPic_size() > 0) {
                 squareGson.setPics(squareGsons.get(i).getPics());

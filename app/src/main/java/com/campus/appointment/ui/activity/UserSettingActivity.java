@@ -1,6 +1,5 @@
 package com.campus.appointment.ui.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.campus.appointment.R;
@@ -18,7 +17,7 @@ public class UserSettingActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-
+        setIsshowtitle(true);
     }
 
     @Override

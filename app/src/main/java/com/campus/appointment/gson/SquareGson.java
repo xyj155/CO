@@ -190,7 +190,7 @@ public class SquareGson {
             private String username;
             private String latitude;
             private String longitude;
-            private String head;
+            private String avatar;
             private int is_qq;
             private Object qq_id;
             private int sex;
@@ -268,12 +268,12 @@ public class SquareGson {
                 this.longitude = longitude;
             }
 
-            public String getHead() {
-                return head;
+            public String getAvatar() {
+                return avatar;
             }
 
-            public void setHead(String head) {
-                this.head = head;
+            public void setAvatar(String avatar) {
+                this.avatar = avatar;
             }
 
             public int getIs_qq() {

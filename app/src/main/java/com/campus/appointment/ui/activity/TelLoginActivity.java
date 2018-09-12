@@ -33,7 +33,7 @@ public class TelLoginActivity extends BaseActivity {
     @Override
     public void initView(Bundle savedInstanceState) {
 
-
+        setIsshowtitle(true);
     }
 
 

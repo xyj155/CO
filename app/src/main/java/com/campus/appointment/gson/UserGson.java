@@ -18,7 +18,6 @@ public class UserGson {
                 ", username='" + username + '\'' +
                 ", latitude='" + latitude + '\'' +
                 ", longitude='" + longitude + '\'' +
-                ", head='" + head + '\'' +
                 '}';
     }
 
@@ -44,7 +43,7 @@ public class UserGson {
     private String username;
     private String latitude;
     private String longitude;
-    private String head;
+    private String avatar;
 
 
     public int getId() {
@@ -115,15 +114,17 @@ public class UserGson {
         return longitude;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
-    public String getHead() {
-        return head;
-    }
 
-    public void setHead(String head) {
-        this.head = head;
-    }
 }

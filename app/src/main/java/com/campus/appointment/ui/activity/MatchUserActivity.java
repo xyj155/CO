@@ -15,7 +15,7 @@ public class MatchUserActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-
+        setIsshowtitle(true);
     }
 
     @Override

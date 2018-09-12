@@ -53,6 +53,7 @@ public class HomeSettingActivity extends BaseActivity {
     public void initView(Bundle savedInstanceState) {
         // TODO: add setContentView(...) invocation
         ButterKnife.inject(this);
+        setIsshowtitle(true);
         rbNormal.setChecked(true);
         rgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

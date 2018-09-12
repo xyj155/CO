@@ -14,7 +14,6 @@ import com.campus.appointment.ui.fragment.FriendsFragment;
 import com.campus.appointment.ui.fragment.HomeFragment;
 import com.campus.appointment.ui.fragment.SquareFragment;
 import com.campus.appointment.ui.fragment.UserFragment;
-import com.luck.picture.lib.permissions.RxPermissions;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -43,7 +42,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setIsshowtitle(true);
     }
 
     @Override

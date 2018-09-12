@@ -14,7 +14,6 @@ import com.gyf.barlibrary.ImmersionBar;
 
 
 /**
- *
  * @author Administrator
  * @date 2018/7/9
  */
@@ -23,13 +22,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     /***是否显示标题栏*/
     private boolean isshowtitle = true;
     /***是否显示标题栏*/
-    private boolean isshowstate = true;
     /***封装toast对象**/
     private static Toast toast;
     /***获取TAG的activity名称**/
     protected final String TAG = this.getClass().getSimpleName();
     private Toolbar toolbar;
     public Dialog dialog;
+    private boolean isshowstate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,8 +39,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView(savedInstanceState);
         //设置数据
         initData();
-        ImmersionBar.with(this).init();
+
     }
+
+
+    public void setIsshowtitle(boolean isshowtitle) {
+        if (isshowtitle) {
+            ImmersionBar.with(this).init();
+        }
+    }
+
     public void showmDialog(String msg) {
         dialog = AppleDialog.createLoadingDialog(BaseActivity.this, msg);
         dialog.show();
@@ -50,6 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void hidemDialog() {
         dialog.dismiss();
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

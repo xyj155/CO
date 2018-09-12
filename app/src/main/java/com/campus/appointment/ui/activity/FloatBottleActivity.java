@@ -41,6 +41,7 @@ public class FloatBottleActivity extends BaseActivity {
     @Override
     public void initView(Bundle savedInstanceState) {
         ButterKnife.inject(this);
+        setIsshowtitle(true);
         radarView = (RadarView) findViewById(R.id.id_scan_circle);
         radarViewGroup = (RadarViewGroup) findViewById(R.id.radar);
 //        for (int i = 0; i < 10; i++) {

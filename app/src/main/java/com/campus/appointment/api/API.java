@@ -3,6 +3,7 @@ package com.campus.appointment.api;
 
 import com.campus.appointment.base.BaseGson;
 import com.campus.appointment.base.EmptyGson;
+import com.campus.appointment.gson.PostDetail;
 import com.campus.appointment.gson.SquareGson;
 import com.campus.appointment.gson.UserGson;
 
@@ -58,28 +59,40 @@ public interface API {
     @Multipart
     @POST("/CO/public/index.php/index/Post/PublishBlog")
     Observable<BaseGson<EmptyGson>> uploadPost(
-            @PartMap() Map<String, RequestBody> partMap  ,
-            @Part      List<MultipartBody.Part> file    );
+            @PartMap() Map<String, RequestBody> partMap,
+            @Part List<MultipartBody.Part> file);
 
 
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/Post/sendReport")
-    Observable<BaseGson<EmptyGson>> sendReport(@Field("uid")     String uid,
-                                              @Field("type")     String type,
-                                              @Field("post_id")  String post_id);    //获取联系人列表
+    Observable<BaseGson<EmptyGson>> sendReport(@Field("uid") String uid,
+                                               @Field("type") String type,
+                                               @Field("post_id") String post_id);    //获取联系人列表
 
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/User/sendAppReport")
-    Observable<BaseGson<EmptyGson>> sendAppReport(@Field("uid")     String uid,
-                                               @Field("content")     String content);    //上传错误
+    Observable<BaseGson<EmptyGson>> sendAppReport(@Field("uid") String uid,
+                                                  @Field("content") String content);    //上传错误
 
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/Post/querySingleUserPost")
-    Observable<BaseGson<SquareGson>> querySingleUserPost(@Field("uid")     String uid);    //个人动态
+    Observable<BaseGson<SquareGson>> querySingleUserPost(@Field("uid") String uid);    //个人动态
 
 
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/Post/updateThumb")
-    Observable<BaseGson<EmptyGson>> updateThumb(@Field("uid")  String uid,
-                                                @Field("pid")  String pid);    //个人动态
+    Observable<BaseGson<EmptyGson>> updateThumb(@Field("uid") String uid,
+                                                @Field("pid") String pid);    //个人动态
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/Post/querySinglePost")
+    Observable<BaseGson<PostDetail>> querySinglePost(@Field("puid") String puid,
+                                                     @Field("id") String id,
+                                                     @Field("uid") String uid);    //动态详情    @FormUrlEncoded
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/Post/postComment")
+    Observable<BaseGson<EmptyGson>> postComment(@Field("uid") String uid,
+                                                @Field("comment") String comment ,
+                                                @Field("pid") String pid);    //动态详情
 }

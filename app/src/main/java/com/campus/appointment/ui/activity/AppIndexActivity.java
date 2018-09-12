@@ -48,6 +48,7 @@ public class AppIndexActivity extends BaseActivity implements AppIndexContract.V
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        setIsshowtitle(true);
         ButterKnife.inject(this);
         presenter = new AppIndexPresenter(this);
         View inflate1 = getLayoutInflater().inflate(R.layout.guidance_item_1, null);

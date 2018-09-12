@@ -145,9 +145,7 @@
 
         <service android:name="com.amap.api.location.APSService" />
         <!-- 高德定位 -->
-        <activity android:name=".ui.activity.HomeActivity">
-
-        </activity>
+        <activity android:name=".ui.activity.HomeActivity" />
         <activity android:name=".ui.activity.UserSettingActivity" />
         <activity android:name=".Test" />
         <activity android:name=".ui.activity.HomeSettingActivity" />
@@ -166,6 +164,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activity.UserPostDetailActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".ui.activity.ConversationActivity"></activity>
     </application>
 
 </manifest>

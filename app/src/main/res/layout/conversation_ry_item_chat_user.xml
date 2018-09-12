@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.campus.appointment.weight.bubble.BubbleLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:background_color="#87CEFA"
+        android:padding="15dp"
+        app:angle="8dp"
+        android:layout_marginRight="15dp"
+        app:direction="right"
+        app:radius="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/circleImageView"
+        android:layout_toStartOf="@+id/circleImageView">
+
+        <TextView
+            android:id="@+id/tv_main_item_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="Hello BubbleTextVew"
+            android:textColor="#fff" />
+    </com.campus.appointment.weight.bubble.BubbleLayout>
+
+    <com.campus.appointment.weight.CircleImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_weight="3"
+        android:src="@mipmap/square_vip"
+        android:layout_marginRight="17dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="17dp"
+        android:id="@+id/circleImageView" />
+</RelativeLayout>
