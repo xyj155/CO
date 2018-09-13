@@ -3,6 +3,7 @@ package com.campus.appointment.ui.fragment;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,6 +22,7 @@ import com.campus.appointment.R;
 import com.campus.appointment.adapter.SquareAdapter;
 import com.campus.appointment.base.BaseFragment;
 import com.campus.appointment.base.EmptyGson;
+import com.campus.appointment.broadcast.RyItemBroadcast;
 import com.campus.appointment.contract.home.SquareContract;
 import com.campus.appointment.entity.SquareEntity;
 import com.campus.appointment.gson.SquareGson;
@@ -44,7 +47,7 @@ import static android.content.ContentValues.TAG;
  * Created by Administrator on 2018/9/4/004.
  */
 
-public class SquareFragment extends BaseFragment implements SquareContract.View {
+public class SquareFragment extends BaseFragment implements SquareContract.View, RyItemBroadcast.IReceive {
     private static SquareFragment instance;
     @InjectView(R.id.waveHeader)
     MultiWaveHeader waveHeader;
@@ -63,6 +66,9 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
     private int distance;
     private boolean visible = true;
     private SquarePresenter squarePresenter;
+    private SquareAdapter adapter = null;
+    private RyItemBroadcast ryItemBroadcast;
+    private IntentFilter filter;
 
     public static synchronized SquareFragment getInstance() {
         if (instance == null) {
@@ -83,11 +89,13 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
         squarePresenter = new SquarePresenter(this);
         rySquare.setLayoutManager(new LinearLayoutManager(getActivity()));
         slSquare.autoRefresh();
+        adapter = new SquareAdapter(null, this);
+        adapter.bindToRecyclerView(rySquare);
         slSquare.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 squarePresenter.squareUserActive("3");
-                slSquare.finishRefresh(1500);
+                slSquare.finishRefresh(500);
             }
         });
         rySquare.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -143,7 +151,11 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-
+        //实例化IntentFilter对象
+        filter = new IntentFilter();
+        filter.addAction("com.campus.appointment.broadcast.RY_BROADCAST");
+        ryItemBroadcast = new RyItemBroadcast(this);
+        getActivity().registerReceiver(ryItemBroadcast, filter);
         ButterKnife.inject(this, rootView);
         return rootView;
     }
@@ -165,12 +177,12 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
             squareGson.setTitle(squareGsons.get(i).getTitle());
             squareGson.setLocation(squareGsons.get(i).getLocation());
             squareGson.setUser(squareGsons.get(i).getUser());
-            squareGson.setComment(squareGson.getComment());
-            Log.i(TAG, "getComment: "+squareGsons.get(i).getComment());
-            Log.i(TAG, "getThumb: "+squareGsons.get(i).getThumb());
+            squareGson.setComment(squareGsons.get(i).getComment());
+            Log.i(TAG, "getComment: " + squareGsons.get(i).getComment());
+            Log.i(TAG, "getThumb: " + squareGsons.get(i).getThumb());
             squareGson.setLike(squareGsons.get(i).isLike());
             squareGson.setThumb(squareGsons.get(i).getThumb());
-            Log.i(TAG, "squareUserActive: "+squareGsons.get(i).getId());
+            Log.i(TAG, "squareUserActive: " + squareGsons.get(i).getId());
             squareGson.setId(squareGsons.get(i).getId());
             squareGson.setUid(squareGsons.get(i).getUid());
             squareGson.setWritetime(squareGsons.get(i).getWritetime());
@@ -182,7 +194,7 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
                 list.add(new SquareEntity(1, squareGson));
             }
         }
-        SquareAdapter adapter = new SquareAdapter(list, getActivity());
+        adapter.addData(list);
         rySquare.setAdapter(adapter);
     }
 
@@ -206,13 +218,33 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
         }
     }
 
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode) {
-            case 0:
-                squarePresenter.squareUserActive("3");
-                break;
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().registerReceiver(ryItemBroadcast, filter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    public void onReceive(int item) {
+        Log.i(TAG, "onReceive1: " + item);
+        RadioButton rbThumb = (RadioButton) adapter.getViewByPosition(item, R.id.rb_thumb);
+        TextView thumb = (TextView) adapter.getViewByPosition(item, R.id.tv_thumb_count);
+        if (rbThumb != null&&rbThumb.isChecked()==false) {
+            rbThumb.setChecked(true);
+            thumb.setText(String.valueOf(Integer.valueOf(thumb.getText().toString()) + 1));
         }
     }
 }

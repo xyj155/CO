@@ -1,13 +1,12 @@
 package com.campus.appointment.adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,10 +46,10 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
      *
      * @param data A new list is created out of this one to avoid mutable list
      */
-    private Context context;
+    private Fragment context;
     private SquarePresenter presenter;
 
-    public SquareAdapter(List<SquareEntity> data, Context context) {
+    public SquareAdapter(List<SquareEntity> data, Fragment context) {
         super(data);
         this.context = context;
         addItemType(SquareEntity.TYPE_TEXT_TYPE, R.layout.square_ry_text_item);
@@ -71,7 +70,7 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
                     list.add(item.getSquareMsgGson().getPics().get(i).getPic());
                 }
                 RecyclerView ryPicList = helper.getView(R.id.ry_piclist);
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(context.getActivity(), 3);
                 ryPicList.setLayoutManager(gridLayoutManager);
                 SquareMsgAdapter adapter = new SquareMsgAdapter(list);
                 ryPicList.setAdapter(adapter);
@@ -89,7 +88,7 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog(context).builder().setTitle("举报")
+                new AlertDialog(context.getActivity()).builder().setTitle("举报")
                         .setMsg("举报用户: " + item.getSquareMsgGson().getUser().getUsername())
                         .setNegativeButton("取消", new View.OnClickListener() {
                             @Override
@@ -99,7 +98,7 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
                         }).setPositiveButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new ActionSheetDialog(context)
+                        new ActionSheetDialog(context.getActivity())
                                 .builder()
                                 .setCancelable(false)
                                 .setTitle("请选择举报类型")
@@ -145,24 +144,24 @@ public class SquareAdapter extends BaseMultiItemQuickAdapter<SquareEntity, BaseV
                 .setText(R.id.tv_thumb_count, item.getSquareMsgGson().getThumb() + "")
                 .setText(R.id.tv_comment_count, item.getSquareMsgGson().getComment() + "")
                 .setChecked(R.id.rb_thumb, item.getSquareMsgGson().isLike())
-                .setOnCheckedChangeListener(R.id.rb_thumb, new CompoundButton.OnCheckedChangeListener() {
+                .setOnClickListener(R.id.rb_thumb, new View.OnClickListener() {
                     @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked) {
-                            TextView view = helper.getView(R.id.tv_thumb_count);
-                            view.setText((item.getSquareMsgGson().getThumb() + 1) + "");
-                            Log.i(TAG, "onCheckedChanged: " + item.getSquareMsgGson().getId());
-                            presenter.updateThumb("3", String.valueOf(item.getSquareMsgGson().getId()));
-                        }
+                    public void onClick(View v) {
+                        TextView view = helper.getView(R.id.tv_thumb_count);
+                        view.setText((item.getSquareMsgGson().getThumb() + 1) + "");
+                        Log.i(TAG, "onCheckedChanged: " + item.getSquareMsgGson().getId());
+                        presenter.updateThumb("3", String.valueOf(item.getSquareMsgGson().getId()));
                     }
                 })
                 .setOnClickListener(R.id.ll_item, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, UserPostDetailActivity.class);
+                        Intent intent = new Intent(context.getActivity(), UserPostDetailActivity.class);
                         intent.putExtra("uid", "3");
                         intent.putExtra("id", String.valueOf(item.getSquareMsgGson().getId()));
                         intent.putExtra("puid", item.getSquareMsgGson().getUid());
+                        Log.i(TAG, "onClick: " + helper.getPosition());
+                        intent.putExtra("item", helper.getPosition());
                         context.startActivity(intent);
                     }
                 });

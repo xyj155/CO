@@ -145,6 +145,9 @@
 
         <service android:name="com.amap.api.location.APSService" />
         <!-- 高德定位 -->
+
+
+
         <activity android:name=".ui.activity.HomeActivity" />
         <activity android:name=".ui.activity.UserSettingActivity" />
         <activity android:name=".Test" />

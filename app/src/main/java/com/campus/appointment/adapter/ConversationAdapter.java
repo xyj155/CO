@@ -13,7 +13,6 @@ import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.model.Message;
 
 
-
 /**
  * Created by Administrator on 2018/7/11.
  */
@@ -31,7 +30,7 @@ public class ConversationAdapter extends BaseMultiItemQuickAdapter<ConversationE
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ConversationEntity item) {
+    protected void convert(final BaseViewHolder helper, ConversationEntity item) {
         int itemType = item.getItemType();
         switch (itemType) {
             case ConversationEntity.TYPE_SERVICES_MESSAGE:
@@ -42,16 +41,16 @@ public class ConversationAdapter extends BaseMultiItemQuickAdapter<ConversationE
                 break;
             default:
         }
-        Message data = item.getData();
+        final Message data = item.getData();
         //时间
         String time = String.format("%tF %tT", data.getCreateTime(), data.getCreateTime());
         //用户名
         String fromName = data.getFromName();
-
-        //获取内容
         MessageContent messageContent = data.getContent();
         TextContent textContent = (TextContent) messageContent;
         helper.setText(R.id.tv_main_item_content,textContent.getText());
+
+
 //
 //        //设置不可见
 //        helper.getView(R.id.tv_main_item_content).setVisibility(View.GONE);

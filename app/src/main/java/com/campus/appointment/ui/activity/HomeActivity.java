@@ -33,7 +33,8 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     private SquareFragment squareFragment;
     private UserFragment userFragment;
     private FragmentManager fragmentManager;
-
+    public FragmentTransaction mFragmentTransaction;
+    public String curFragmentTag = "SquareFragment";
     @Override
     public int intiLayout() {
         return R.layout.activity_main;
@@ -139,4 +140,16 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
             transaction.hide(userFragment);
         }
     }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        Log.i(TAG, "onActivity333Result: " + resultCode + "--------" + requestCode);
+//        switch (resultCode){
+//            case 0:
+//                Fragment fragment = fragmentManager.getFragments().get(1);
+//                fragment.onActivityResult(requestCode, resultCode, data);
+//                break;
+//        }
+//
+//    }
 }

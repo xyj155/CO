@@ -1,5 +1,6 @@
 package com.campus.appointment.ui.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -24,8 +26,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.campus.appointment.R;
 import com.campus.appointment.base.BaseActivity;
 import com.campus.appointment.base.EmptyGson;
+import com.campus.appointment.contract.home.SquareContract;
 import com.campus.appointment.contract.home.UserPostDetailContract;
 import com.campus.appointment.gson.PostDetail;
+import com.campus.appointment.gson.SquareGson;
+import com.campus.appointment.presenter.home.SquarePresenter;
 import com.campus.appointment.presenter.home.UserPostDetailPresenter;
 import com.campus.appointment.util.TimeUtil;
 import com.campus.appointment.weight.CircleImageView;
@@ -45,7 +50,7 @@ import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import pl.droidsonroids.gif.GifImageView;
 
-public class UserPostDetailActivity extends BaseActivity implements UserPostDetailContract.View {
+public class UserPostDetailActivity extends BaseActivity implements UserPostDetailContract.View, SquareContract.View {
 
     @InjectView(R.id.gifView)
     GifImageView gifView;
@@ -88,9 +93,7 @@ public class UserPostDetailActivity extends BaseActivity implements UserPostDeta
     @InjectView(R.id.btn_send)
     TextView btnSend;
     private UserPostDetailPresenter postDetailPresenter;
-
-
-
+    private SquarePresenter presenter;
     @Override
     public int intiLayout() {
         return R.layout.activity_user_post_detail;
@@ -162,10 +165,14 @@ public class UserPostDetailActivity extends BaseActivity implements UserPostDeta
         super.onCreate(savedInstanceState);
         setIsshowtitle(false);
         postDetailPresenter = new UserPostDetailPresenter(this);
+        presenter = new SquarePresenter(this);
         SharedPreferences.Editor sp = getSharedPreferences("comment", MODE_PRIVATE).edit();
         sp.putString("uid", "3");
         sp.putString("pid", getIntent().getStringExtra("id"));
+        sp.putInt("item", getIntent().getIntExtra("item", 8));
         sp.apply();
+        Log.i(TAG, "onCreate: "
+                + getIntent().getIntExtra("puid", 0) + "----" + String.valueOf(getIntent().getStringExtra("id") + "----" + String.valueOf(getIntent().getStringExtra("uid"))));
         postDetailPresenter.querySinglePost(String.valueOf(
                 getIntent().getIntExtra("puid", 0)),
                 String.valueOf(getIntent().getStringExtra("id")),
@@ -186,10 +193,23 @@ public class UserPostDetailActivity extends BaseActivity implements UserPostDeta
             if (list.get(0).getUser().getIs_vip() == 1) {
                 ivVip.setVisibility(View.VISIBLE);
             }
+            Log.i(TAG, "querySinglePost: " + list.get(0).isLike());
             if (list.get(0).isLike()) {
                 rbThumb.setChecked(true);
             } else {
                 rbThumb.setChecked(false);
+                rbThumb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            presenter.updateThumb("3", getSharedPreferences("comment", MODE_PRIVATE).getString("pid", ""));
+                            Intent intent = new Intent();
+                            intent.setAction("com.campus.appointment.broadcast.RY_BROADCAST");
+                            intent.putExtra("item", getSharedPreferences("comment", MODE_PRIVATE).getInt("item", 0));
+                            sendBroadcast(intent);
+                        }
+                    }
+                });
             }
             SquarePicsAdapter squareMsgAdapter = new SquarePicsAdapter(list.get(0).getPic());
             ryPostDetail.setAdapter(squareMsgAdapter);
@@ -197,6 +217,7 @@ public class UserPostDetailActivity extends BaseActivity implements UserPostDeta
             ryComment.setAdapter(commentAdapter);
         }
     }
+
 
     @Override
     public void postComment(List<EmptyGson> list) {
@@ -210,6 +231,21 @@ public class UserPostDetailActivity extends BaseActivity implements UserPostDeta
     @OnClick(R.id.btn_send)
     public void onViewClicked() {
         postDetailPresenter.postComment("3", etComment.getText().toString(), getSharedPreferences("comment", MODE_PRIVATE).getString("pid", ""));
+    }
+
+    @Override
+    public void squareUserActive(List<SquareGson> squareGsons) {
+
+    }
+
+    @Override
+    public void sendReport(List<EmptyGson> squareGsons) {
+
+    }
+
+    @Override
+    public void updateThumb(List<EmptyGson> squareGsons) {
+        tvThumbCount.setText(String.valueOf(Integer.valueOf(tvThumbCount.getText().toString()) + 1));
 
     }
 
@@ -252,5 +288,14 @@ public class UserPostDetailActivity extends BaseActivity implements UserPostDeta
             Glide.with(UserPostDetailActivity.this).load(item.getPic())
                     .transition(DrawableTransitionOptions.withCrossFade()).apply(options).into(imageView);
         }
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
+
     }
 }

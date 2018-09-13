@@ -59,7 +59,7 @@ public class ConversationPresenter implements ConversationContract.Presenter {
         Log.i(TAG, "messageToEntity: " + messages.size());
         List<ConversationEntity> list = new ArrayList<>();
         for (Message message : messages) {
-            if (message.getFromName().equals("456789")) {
+            if (message.getFromName().equals("123456")) {
                 list.add(ConversationEntity.client(message));
             } else {
                 list.add(ConversationEntity.service(message));
@@ -70,7 +70,7 @@ public class ConversationPresenter implements ConversationContract.Presenter {
 
     @Override
     public void login() {
-        IMUtils.login("456789", "456789", new BasicCallback() {
+        IMUtils.login("123456", "123456", new BasicCallback() {
             @Override
             public void gotResult(int i, final String s) {
                 if (i == 0) {

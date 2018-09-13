@@ -31,6 +31,8 @@ import cn.jpush.im.android.api.event.OfflineMessageEvent;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.Message;
 
+import static cn.jpush.im.android.api.JMessageClient.FLAG_NOTIFY_SILENCE;
+
 public class ConversationActivity extends BaseActivity implements ConversationContract.View {
 
 
@@ -68,6 +70,7 @@ public class ConversationActivity extends BaseActivity implements ConversationCo
     protected void onDestroy() {
         super.onDestroy();
         JMessageClient.unRegisterEventReceiver(this);
+        JMessageClient.exitConversation();//退出会话页面启用通知栏
     }
 
     @Override
@@ -81,6 +84,7 @@ public class ConversationActivity extends BaseActivity implements ConversationCo
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         JMessageClient.registerEventReceiver(this);
+        JMessageClient.setNotificationFlag(FLAG_NOTIFY_SILENCE);
     }
 
     @Override
@@ -98,7 +102,7 @@ public class ConversationActivity extends BaseActivity implements ConversationCo
     public void loginSuccess() {
         Log.i(TAG, "loginSuccess: " + "登陆成功");
         showmDialog("数据加载中...");
-        mConversation = Conversation.createSingleConversation("123456");
+        mConversation = Conversation.createSingleConversation("456789");
         String title = mConversation.getTitle();
         Log.i(TAG, "loginSuccess: "+ title);
         if (mConversation != null) {

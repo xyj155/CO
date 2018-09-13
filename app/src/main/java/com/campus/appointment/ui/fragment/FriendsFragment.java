@@ -19,6 +19,7 @@ import com.campus.appointment.contract.home.FriendsContract;
 import com.campus.appointment.gson.UserGson;
 import com.campus.appointment.presenter.home.FriendsPresenter;
 import com.campus.appointment.ui.activity.ConversationActivity;
+import com.campus.appointment.util.IMUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -30,6 +31,11 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.jpush.im.android.api.content.MessageContent;
+import cn.jpush.im.android.api.content.TextContent;
+import cn.jpush.im.android.api.model.Conversation;
+import cn.jpush.im.android.api.model.Message;
+import cn.jpush.im.api.BasicCallback;
 import pl.droidsonroids.gif.GifImageView;
 
 /**
@@ -61,6 +67,13 @@ public class FriendsFragment extends BaseFragment implements FriendsContract.Vie
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        friendsPresenter.getContactList("3");
+
+    }
+
+    @Override
     protected int setLayoutResourceID() {
         return R.layout.fragment_friends;
     }
@@ -74,7 +87,7 @@ public class FriendsFragment extends BaseFragment implements FriendsContract.Vie
         slFriends.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                slFriends.finishRefresh(1500);
+                slFriends.finishRefresh(500);
                 friendsPresenter.getContactList("3");
             }
         });
@@ -117,16 +130,31 @@ public class FriendsFragment extends BaseFragment implements FriendsContract.Vie
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, UserGson item) {
-            helper.setText(R.id.tv_username, item.getUsername())
-                    .setText(R.id.tv_msg, item.getTel())
-            .setOnClickListener(R.id.item_friends, new View.OnClickListener() {
+        protected void convert(final BaseViewHolder helper, final UserGson item) {
+            IMUtils.login("123456", "123456", new BasicCallback() {
                 @Override
-                public void onClick(View v) {
-                    starActivity(ConversationActivity.class);
+                public void gotResult(int i, final String s) {
+                    if (i == 0) {
+                        //获取内容
+                        Conversation singleConversation = Conversation.createSingleConversation("456789");
+                        Message latestMessage = singleConversation.getLatestMessage();
+                        MessageContent content = latestMessage.getContent();
+                        TextContent textContent = (TextContent) content;
+                        helper.setText(R.id.tv_username, item.getUsername())
+                                .setText(R.id.tv_msg, textContent.getText())
+                                .setOnClickListener(R.id.item_friends, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        starActivity(ConversationActivity.class);
+                                    }
+                                });
+                        Glide.with(getActivity()).load(item.getAvatar()).into((ImageView) helper.getView(R.id.iv_head));
+                    } else {
+
+                    }
                 }
             });
-            Glide.with(getActivity()).load(item.getAvatar()).into((ImageView) helper.getView(R.id.iv_head));
+
         }
     }
 }
