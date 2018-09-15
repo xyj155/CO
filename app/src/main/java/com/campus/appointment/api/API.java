@@ -3,6 +3,7 @@ package com.campus.appointment.api;
 
 import com.campus.appointment.base.BaseGson;
 import com.campus.appointment.base.EmptyGson;
+import com.campus.appointment.gson.Face;
 import com.campus.appointment.gson.PostDetail;
 import com.campus.appointment.gson.SquareGson;
 import com.campus.appointment.gson.UserGson;
@@ -14,6 +15,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -95,4 +97,6 @@ public interface API {
     Observable<BaseGson<EmptyGson>> postComment(@Field("uid") String uid,
                                                 @Field("comment") String comment ,
                                                 @Field("pid") String pid);    //动态详情
+    @GET("/CO/public/index.php/index/Face/queryFace")
+    Observable<BaseGson<Face>> getFaces();
 }

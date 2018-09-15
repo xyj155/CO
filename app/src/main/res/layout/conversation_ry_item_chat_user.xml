@@ -1,46 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="right|center"
     android:orientation="horizontal">
 
-    <com.campus.appointment.weight.bubble.BubbleLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:background_color="#87CEFA"
-        android:padding="15dp"
-        app:angle="8dp"
-        android:layout_marginRight="15dp"
-        app:direction="right"
-        app:radius="5dp"
-        android:layout_marginEnd="15dp"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/circleImageView"
-        android:layout_toStartOf="@+id/circleImageView">
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/aurora_sendtxt_bubble">
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_voice"
+            android:visibility="gone"
+            android:drawablePadding="5dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:text="11''"
+            android:drawableLeft="@mipmap/voice_item_right" />
 
         <TextView
             android:id="@+id/tv_main_item_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="left"
             android:paddingBottom="10dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:paddingTop="10dp"
-            android:text="Hello BubbleTextVew"
-            android:textColor="#fff" />
-    </com.campus.appointment.weight.bubble.BubbleLayout>
+            android:textColor="#000000" />
+    </LinearLayout>
 
     <com.campus.appointment.weight.CircleImageView
+        android:id="@+id/circleImageView"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_weight="3"
-        android:src="@mipmap/square_vip"
-        android:layout_marginRight="17dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_marginEnd="17dp"
-        android:id="@+id/circleImageView" />
-</RelativeLayout>
+        android:layout_marginRight="17dp"
+        android:src="@mipmap/square_vip" />
+</LinearLayout>

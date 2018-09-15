@@ -95,7 +95,7 @@ public class SquareFragment extends BaseFragment implements SquareContract.View,
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 squarePresenter.squareUserActive("3");
-                slSquare.finishRefresh(500);
+                slSquare.finishRefresh(300);
             }
         });
         rySquare.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -247,4 +247,6 @@ public class SquareFragment extends BaseFragment implements SquareContract.View,
             thumb.setText(String.valueOf(Integer.valueOf(thumb.getText().toString()) + 1));
         }
     }
+
+
 }

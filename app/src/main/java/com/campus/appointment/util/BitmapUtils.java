@@ -16,6 +16,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -41,6 +44,7 @@ public class BitmapUtils {
 
     /**
      * 压缩图片（质量压缩）
+     *
      * @param bitmap
      */
     public static File Bitmap2File(Bitmap bitmap) {
@@ -56,7 +60,7 @@ public class BitmapUtils {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = new Date(System.currentTimeMillis());
         String filename = format.format(date);
-        File file = new File(Environment.getExternalStorageDirectory(),filename+".png");
+        File file = new File(Environment.getExternalStorageDirectory(), filename + ".png");
         try {
             FileOutputStream fos = new FileOutputStream(file);
             try {
@@ -73,8 +77,9 @@ public class BitmapUtils {
         recycleBitmap(bitmap);
         return file;
     }
+
     public static void recycleBitmap(Bitmap... bitmaps) {
-        if (bitmaps==null) {
+        if (bitmaps == null) {
             return;
         }
         for (Bitmap bm : bitmaps) {
@@ -83,6 +88,7 @@ public class BitmapUtils {
             }
         }
     }
+
     public static Bitmap getimage(String srcPath) {
         BitmapFactory.Options newOpts = new BitmapFactory.Options();
         // 开始读入图片，此时把options.inJustDecodeBounds 设回true了
@@ -296,5 +302,23 @@ public class BitmapUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+
+    public static Bitmap URL2BitMap(final String url) {
+        Bitmap bitmap = null;
+                try {
+                    URL  imageurl = new URL(url);
+                    HttpURLConnection conn = (HttpURLConnection) imageurl.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+                    bitmap = BitmapFactory.decodeStream(is);
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        return bitmap;
     }
 } 

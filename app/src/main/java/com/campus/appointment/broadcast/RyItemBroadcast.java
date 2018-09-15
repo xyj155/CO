@@ -15,6 +15,8 @@ import static android.content.ContentValues.TAG;
 public class RyItemBroadcast extends BroadcastReceiver {
     private IReceive recever;
 
+
+
     public RyItemBroadcast() {
     }
 
@@ -27,8 +29,8 @@ public class RyItemBroadcast extends BroadcastReceiver {
         String action = intent.getAction();
         Log.i(TAG, "onReceive2: ");
         if (action.equals("com.campus.appointment.broadcast.RY_BROADCAST")) {
-            recever.onReceive(intent.getIntExtra("item",2));
-            Log.i(TAG, "onReceive: " + intent.getIntExtra("item",2));
+            recever.onReceive(intent.getIntExtra("item", 2));
+            Log.i(TAG, "onReceive: " + intent.getIntExtra("item", 2));
         }
 
     }
@@ -36,6 +38,7 @@ public class RyItemBroadcast extends BroadcastReceiver {
     public interface IReceive {
         void onReceive(int item);
     }
+
 
 
 }

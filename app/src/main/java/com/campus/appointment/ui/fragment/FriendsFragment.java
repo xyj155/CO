@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.campus.appointment.R;
 import com.campus.appointment.base.BaseFragment;
+import com.campus.appointment.base.ToastUtil;
 import com.campus.appointment.contract.home.FriendsContract;
 import com.campus.appointment.gson.UserGson;
 import com.campus.appointment.presenter.home.FriendsPresenter;
@@ -42,7 +43,7 @@ import pl.droidsonroids.gif.GifImageView;
  * Created by Administrator on 2018/9/4/004.
  */
 
-public class FriendsFragment extends BaseFragment implements FriendsContract.View {
+public class FriendsFragment extends BaseFragment implements FriendsContract.View{
     private static FriendsFragment instance;
     @InjectView(R.id.tv_friend)
     TextView tvFriend;
@@ -103,7 +104,6 @@ public class FriendsFragment extends BaseFragment implements FriendsContract.Vie
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-
         ButterKnife.inject(this, rootView);
         return rootView;
     }
@@ -123,6 +123,7 @@ public class FriendsFragment extends BaseFragment implements FriendsContract.Vie
     }
 
 
+
     private class ConversationAdapter extends BaseQuickAdapter<UserGson, BaseViewHolder> {
 
         public ConversationAdapter(@Nullable List<UserGson> data) {
@@ -131,26 +132,25 @@ public class FriendsFragment extends BaseFragment implements FriendsContract.Vie
 
         @Override
         protected void convert(final BaseViewHolder helper, final UserGson item) {
+            Glide.with(getActivity()).load(item.getAvatar()).into((ImageView) helper.getView(R.id.iv_head));
+            helper.setText(R.id.tv_username, item.getUsername())
+                    .setOnClickListener(R.id.item_friends, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            starActivity(ConversationActivity.class);
+                        }
+                    });
             IMUtils.login("123456", "123456", new BasicCallback() {
                 @Override
                 public void gotResult(int i, final String s) {
                     if (i == 0) {
-                        //获取内容
                         Conversation singleConversation = Conversation.createSingleConversation("456789");
                         Message latestMessage = singleConversation.getLatestMessage();
                         MessageContent content = latestMessage.getContent();
                         TextContent textContent = (TextContent) content;
-                        helper.setText(R.id.tv_username, item.getUsername())
-                                .setText(R.id.tv_msg, textContent.getText())
-                                .setOnClickListener(R.id.item_friends, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        starActivity(ConversationActivity.class);
-                                    }
-                                });
-                        Glide.with(getActivity()).load(item.getAvatar()).into((ImageView) helper.getView(R.id.iv_head));
+                        helper.setText(R.id.tv_msg, textContent.getText());
                     } else {
-
+                        ToastUtil.showToastError("获取消息列表出错");
                     }
                 }
             });

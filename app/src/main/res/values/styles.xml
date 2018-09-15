@@ -7,6 +7,30 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="BottomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowAnimationStyle">@style/BottomDialog.AnimationStyle</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
+    <style name="BottomDialog.AnimationStyle" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_to_bottom</item>
+    </style>
+    <style name="Dialog_Fullscreen">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowBackground">@color/touming</item><!--背景透明-->
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <style name="ButtomMenuEnterExitAnimation">
+        <item name="android:windowEnterAnimation">@anim/enter_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/exit_from_bottom</item>
+    </style>
     <declare-styleable name="CircleImageView">
         <attr name="civ_border_width" format="dimension" />
         <attr name="civ_border_color" format="color" />
@@ -162,4 +186,5 @@
             <enum name="bottom" value="0x03" />
         </attr>
     </declare-styleable>
+    <color name="touming">#00000000</color>
 </resources>

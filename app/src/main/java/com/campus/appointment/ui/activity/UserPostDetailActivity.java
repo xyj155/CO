@@ -138,7 +138,7 @@ public class UserPostDetailActivity extends BaseActivity implements UserPostDeta
                 ryPostDetail.setLayoutManager(gridLayoutManager);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UserPostDetailActivity.this);
                 ryComment.setLayoutManager(linearLayoutManager);
-                refreshLayout.finishRefresh(800);
+                refreshLayout.finishRefresh(300);
             }
         });
 

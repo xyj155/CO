@@ -1,48 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:weightSum="4">
-
-    <com.campus.appointment.weight.bubble.BubbleLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:background_color="#ff7256"
-        android:layout_weight="1"
-        android:padding="15dp"
-        app:angle="8dp"
-        app:direction="left"
-        app:radius="5dp"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/circleImageView2"
-        android:layout_toEndOf="@+id/circleImageView2"
-        android:layout_marginLeft="18dp"
-        android:layout_marginStart="18dp">
-
-        <TextView
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp"
-            android:id="@+id/tv_main_item_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Hello BubbleTextVew"
-            android:textColor="#fff" />
-    </com.campus.appointment.weight.bubble.BubbleLayout>
+    android:gravity="center|left"
+    android:orientation="horizontal">
 
     <com.campus.appointment.weight.CircleImageView
+        android:id="@+id/circleImageView2"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_weight="3"
-        android:src="@mipmap/square_vip"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_marginLeft="19dp"
         android:layout_marginStart="19dp"
-        android:id="@+id/circleImageView2" />
-</RelativeLayout>
+        android:src="@mipmap/square_vip" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/aurora_receivetxt_bubble">
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_voice"
+            android:visibility="gone"
+            android:drawablePadding="5dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:text="11''"
+            android:drawableLeft="@mipmap/voice_item_left" />
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_main_item_content"
+            android:paddingRight="8dp"
+            android:layout_width="wrap_content"
+            android:paddingLeft="8dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="left"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+</LinearLayout>

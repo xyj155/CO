@@ -1,11 +1,14 @@
 package com.campus.appointment.contract.home;
 
+import com.campus.appointment.base.BaseGson;
 import com.campus.appointment.entity.ConversationEntity;
+import com.campus.appointment.gson.Face;
 
 import java.util.List;
 
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.Message;
+import rx.Observable;
 
 /**
  * Created by Administrator on 2018/9/12/012.
@@ -13,32 +16,38 @@ import cn.jpush.im.android.api.model.Message;
 
 public interface ConversationContract {
     interface Model {
+        Observable<BaseGson<Face>> queryFace();
     }
 
     interface View {
-            /**
-             * 刷新消息
-             */
-            void refreshMessage();
 
-            /**
-             * 获取会话
-             */
-            void getConversation(List<ConversationEntity> conversationEntities);
+        void showFace(List<Face> faces);
 
-            /**
-             * 登录是否成功
-             */
-            void loginSuccess();
+        /**
+         * 刷新消息
+         */
+        void refreshMessage();
 
-            void loadHistoryMessage(List<Message> messages);
+        /**
+         * 获取会话
+         */
+        void getConversation(List<ConversationEntity> conversationEntities);
 
-            void showDialog(String msg);
+        /**
+         * 登录是否成功
+         */
+        void loginSuccess();
 
-            void hideDialog();
+        void loadHistoryMessage(List<Message> messages);
+
+        void showDialog(String msg);
+
+        void hideDialog();
     }
 
     interface Presenter {
+
+        void queryFace();
         /**
          * 发送消息
          *

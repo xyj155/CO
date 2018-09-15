@@ -102,6 +102,7 @@ dependencies {
     compile 'cn.jiguang.sdk:jcore:1.2.3'
     compile 'com.github.Jay-Goo:RangeSeekBar:v2.0.4'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.lqr.audio:library:1.0.0'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'jp.wasabeef:glide-transformations:3.3.0'

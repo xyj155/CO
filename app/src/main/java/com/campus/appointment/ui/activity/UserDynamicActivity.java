@@ -58,7 +58,7 @@ public class UserDynamicActivity extends BaseActivity implements UserDynamicCont
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 presenter.querySingleUserPost("4");
-                slSingle.finishRefresh(1500);
+                slSingle.finishRefresh(300);
             }
         });
     }

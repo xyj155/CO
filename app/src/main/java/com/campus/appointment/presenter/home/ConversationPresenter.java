@@ -2,9 +2,12 @@ package com.campus.appointment.presenter.home;
 
 import android.util.Log;
 
+import com.campus.appointment.base.BaseGson;
+import com.campus.appointment.base.BaseObserver;
 import com.campus.appointment.base.ToastUtil;
 import com.campus.appointment.contract.home.ConversationContract;
 import com.campus.appointment.entity.ConversationEntity;
+import com.campus.appointment.gson.Face;
 import com.campus.appointment.model.home.ConversationModel;
 import com.campus.appointment.util.IMUtils;
 
@@ -16,6 +19,8 @@ import cn.jpush.im.android.api.content.MessageContent;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.Message;
 import cn.jpush.im.api.BasicCallback;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static android.content.ContentValues.TAG;
 
@@ -30,6 +35,30 @@ public class ConversationPresenter implements ConversationContract.Presenter {
     public ConversationPresenter(ConversationContract.View view) {
         this.view = view;
     }
+
+    @Override
+    public void queryFace() {
+        model.queryFace()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<BaseGson<Face>>() {
+                    @Override
+                    public void onError(String error) {
+                        ToastUtil.showToastError("获取表情包出错");
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseGson<Face> faceBaseGson) {
+                        view.showFace(faceBaseGson.getData());
+                    }
+                });
+    }
+
     @Override
     public void sendMessage(Message message) {
         if (message == null) {
@@ -42,7 +71,7 @@ public class ConversationPresenter implements ConversationContract.Presenter {
                 if (code == IMUtils.CODE_SUCCESS) {
 
                 } else {
-                    ToastUtil.showToastError("发送失败,错误信息："+s+"错误代码："+code);
+                    ToastUtil.showToastError("发送失败,错误信息：" + s + "错误代码：" + code);
                 }
             }
         });
@@ -91,7 +120,7 @@ public class ConversationPresenter implements ConversationContract.Presenter {
         List<Message> allMessage = conversation.getAllMessage();
         for (Message m : allMessage) {
             MessageContent content = m.getContent();
-            Log.i(TAG, "getHistoryMessage: "+ content.toJson());
+            Log.i(TAG, "getHistoryMessage: " + content.toJson());
         }
     }
 }

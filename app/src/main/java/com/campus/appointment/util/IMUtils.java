@@ -1,5 +1,7 @@
 package com.campus.appointment.util;
 
+import android.graphics.Bitmap;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -78,6 +80,17 @@ public class IMUtils {
         return JMessageClient.createSingleTextMessage(userName, message);
     }
 
+
+    public static Message createImageMessage(String userName, String path) throws FileNotFoundException {
+        return JMessageClient.createSingleImageMessage(userName, new File(path));
+    }
+
+    public static Message createURLImageMessage(String userName, final String url) throws FileNotFoundException {
+        Bitmap bitmap = BitmapUtils.URL2BitMap(url);
+        File file = BitmapUtils.Bitmap2File(bitmap);
+        return JMessageClient.createSingleImageMessage(userName, file);
+    }
+
     /**
      * 发送文字消息
      *
@@ -142,7 +155,7 @@ public class IMUtils {
      * @return
      */
     public static Message createCustomMessage(String userName, Map<? extends String, ? extends
-                String> valuesMap) {
+            String> valuesMap) {
         return JMessageClient.createSingleCustomMessage(userName, valuesMap);
     }
 
