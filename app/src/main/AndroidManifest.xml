@@ -7,7 +7,7 @@
         android:protectionLevel="signature" />
 
     <!-- Required -->
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.campus.appointment.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -55,6 +55,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- 录音权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -148,8 +149,6 @@
         <service android:name="com.amap.api.location.APSService" />
         <!-- 高德定位 -->
 
-
-
         <activity android:name=".ui.activity.HomeActivity" />
         <activity android:name=".ui.activity.UserSettingActivity" />
         <activity android:name=".Test" />
@@ -171,8 +170,9 @@
         </activity>
         <activity
             android:name=".ui.activity.UserPostDetailActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".ui.activity.ConversationActivity"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.activity.ConversationActivity" />
+
     </application>
 
 </manifest>
