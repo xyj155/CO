@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
+    android:orientation="vertical"
     tools:context="com.campus.appointment.ui.activity.UserSettingActivity">
 
     <TextView
@@ -19,4 +20,114 @@
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="57dp"
+            android:src="@mipmap/xxhdpi_co"
+            android:id="@+id/imageView2"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:text="哟哟"
+            android:gravity="center"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:layout_below="@+id/imageView2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#fafafa"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_tv_user_infor" />
+
+    <TextView
+        android:id="@+id/tv_sys_version"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:drawableLeft="@mipmap/sys_version"
+        android:drawablePadding="8dp"
+        android:gravity="center|left"
+        android:paddingLeft="15sp"
+        android:text="软件版本  V 1.0"
+        android:textColor="#000"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_tv_user_infor_divider" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#fafafa"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_tv_user_infor" />
+
+    <TextView
+        android:id="@+id/tv_sys_update"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:drawableLeft="@mipmap/sys_update"
+        android:drawablePadding="8dp"
+        android:gravity="center|left"
+        android:paddingLeft="15sp"
+        android:text="软件更新"
+        android:textColor="#000"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_tv_user_infor_divider" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#fafafa"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_tv_user_infor" />
+
+    <TextView
+        android:id="@+id/tv_sys_cache"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:drawableLeft="@mipmap/sys_infro"
+        android:drawablePadding="8dp"
+        android:gravity="center|left"
+        android:paddingLeft="15sp"
+        android:text="清除缓存"
+        android:textColor="#000"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_tv_user_infor_divider" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#fafafa"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_tv_user_infor" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp"
+        android:textColor="@color/white"
+        android:id="@+id/tv_login_out"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:paddingTop="15dp"
+        android:background="@drawable/sys_tv_radius_red_30dp"
+        android:text="退出登录" />
+</LinearLayout>

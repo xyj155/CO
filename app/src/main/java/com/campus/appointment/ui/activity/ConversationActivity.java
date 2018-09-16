@@ -164,7 +164,8 @@ public class ConversationActivity extends BaseActivity implements ConversationCo
     @Override
     public void loginSuccess() {
         showmDialog("数据加载中...");
-        mConversation = Conversation.createSingleConversation("456789");
+        Log.i(TAG, "loginSuccess: "+getIntent().getStringExtra("tel"));
+        mConversation = Conversation.createSingleConversation(getIntent().getStringExtra("tel"));
         String title = mConversation.getTitle();
         Log.i(TAG, "loginSuccess: " + title);
         if (mConversation != null) {

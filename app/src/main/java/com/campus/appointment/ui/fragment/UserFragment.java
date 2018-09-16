@@ -14,7 +14,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.campus.appointment.R;
 import com.campus.appointment.base.BaseFragment;
+import com.campus.appointment.ui.activity.UserObserveActivity;
 import com.campus.appointment.ui.activity.SendBugsReportActivity;
+import com.campus.appointment.ui.activity.UserDetailActivity;
 import com.campus.appointment.ui.activity.UserDynamicActivity;
 import com.campus.appointment.ui.activity.UserSettingActivity;
 import com.campus.appointment.weight.CircleImageView;
@@ -110,11 +112,13 @@ public class UserFragment extends BaseFragment {
             case R.id.tv_username:
                 break;
             case R.id.user_tv_user_infor:
+                starActivity(UserDetailActivity.class);
                 break;
             case R.id.user_tv_book:
                 starActivity(UserDynamicActivity.class);
                 break;
             case R.id.user_tv_observer:
+                starActivity(UserObserveActivity.class);
                 break;
             case R.id.user_tv_setting:
                 starActivity(UserSettingActivity.class);

@@ -7,17 +7,6 @@ MobSDK {
     SMSSDK {}
     ShareSDK {
         devInfo {
-            Email {}
-            ShortMessage {}
-            Wechat {
-                appId "wx4868b35061f87885"
-                appSecret "64020361b8ec4c99936c0e3999a9f249"
-                userName "gh_afb25ac019c9"
-                path "pages/index/index.html?id=1"
-                withShareTicket true
-                miniprogramType 2
-                bypassApproval false
-            }
             QQ {
                 appId "1107829092"
                 appKey "cdpdypB2EKwFXIUD"
@@ -30,12 +19,16 @@ MobSDK {
 android {
     compileSdkVersion 28
     buildToolsVersion '27.0.3'
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
     defaultConfig {
         applicationId "com.campus.appointment"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "1"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
@@ -72,6 +65,9 @@ dependencies {
         force = true
     }
     compile project(path: ':picture_library')
+    compile 'cn.jiguang.sdk:jcore:1.2.3'
+    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
+    compile 'cn.jiguang.sdk:jcore:1.2.3'
     compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.5'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jakewharton:butterknife:5.1.1'
@@ -95,16 +91,15 @@ dependencies {
     compile 'com.amap.api:location:3.3.0'
     compile 'com.amap.api:3dmap:5.0.0'
     compile 'cn.jiguang.sdk:jmessage:2.7.0'
-    compile 'cn.jiguang.sdk:jcore:1.2.3'
     compile 'cn.jiguang.sdk:jpush:3.1.5'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.3'
     compile 'com.youth.banner:banner:1.4.10'
-    compile 'cn.jiguang.sdk:jcore:1.2.3'
     compile 'com.github.Jay-Goo:RangeSeekBar:v2.0.4'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.lqr.audio:library:1.0.0'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'jp.wasabeef:glide-transformations:3.3.0'
+    compile 'com.tencent.bugly:crashreport_upgrade:1.2.0'
     testCompile 'junit:junit:4.12'
 }

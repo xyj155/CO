@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    xmlns:tagview="http://schemas.android.com/apk/res-auto"
+    tools:context="com.campus.appointment.ui.activity.UserDetailActivity">
+
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.campus.appointment.weight.CircleImageView
+                android:id="@+id/circleImageView3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/circleImageView3"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="用户名" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/tv_age_location"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_username"
+                android:gravity="center"
+                android:text="19 浙江" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:id="@+id/tv_active"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="动态 0"
+                    android:textColor="#000" />
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#fafafa" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:id="@+id/tv_observer"
+                    android:text="关注 0"
+                    android:textColor="#000" />
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#fafafa" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:id="@+id/tv_fans"
+                    android:text="粉丝 0"
+                    android:textColor="#000" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#fafafa" />
+        <TextView
+            android:layout_width="match_parent"
+            android:paddingLeft="20dp"
+            android:layout_height="40dp"
+            android:text="我的标签"
+            android:gravity="center|left"/>
+        <com.campus.appointment.weight.tag.TagView
+            android:id="@+id/tag_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            tagview:lineMargin="5dp"
+            tagview:tagMargin="5dp"
+            tagview:textPaddingLeft="8dp"
+            tagview:textPaddingTop="5dp"
+            tagview:textPaddingRight="8dp"
+            tagview:textPaddingBottom="5dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:paddingLeft="20dp"
+            android:layout_height="40dp"
+            android:text="个性签名"
+            android:gravity="center|left"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_sign"
+            android:padding="15dp"
+            android:textColor="#000"
+            android:text="我的签我的签名我的签名我的签名名"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:paddingLeft="20dp"
+            android:layout_height="40dp"
+            android:text="我的照片"
+            android:gravity="center|left"/>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ry_piclist"/>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+
+    <com.scwang.wave.MultiWaveHeader
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+</RelativeLayout>

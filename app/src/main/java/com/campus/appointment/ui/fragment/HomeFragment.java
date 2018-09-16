@@ -1,6 +1,7 @@
 package com.campus.appointment.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -138,7 +139,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, AMa
     private static final String TAG = "HomeFragment";
 
     @Override
-    public void showTags(BaseGson<UserGson> list) {
+    public void showTags(final BaseGson<UserGson> list) {
         List<UserGson> groupGsons = new ArrayList<>();
         Log.i(TAG, "showTags: " + groupGsons);
         for (int i = 0; i < list.getData().size(); i++) {
@@ -152,8 +153,17 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, AMa
         TagGroupAdapter adapter = new TagGroupAdapter(groupGsons, getActivity());
         adapter.setOnItemClickListner(new TagGroupAdapter.OnClickInterface() {
             @Override
-            public void OnItemClickListener() {
-                starActivity(MatchUserActivity.class);
+            public void OnItemClickListener(int position) {
+                Intent intent=new Intent(getActivity(),MatchUserActivity.class);
+                intent.putExtra("url",list.getData().get(position).getAvatar());
+                intent.putExtra("username",list.getData().get(position).getUsername());
+                intent.putExtra("age",list.getData().get(position).getAge());
+                intent.putExtra("tel",list.getData().get(position).getTel());
+                intent.putExtra("id",list.getData().get(position).getId());
+                intent.putExtra("sex",list.getData().get(position).getSex());
+                intent.putExtra("location",list.getData().get(position).getCity());
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.activity_zoom_in, R.anim.activity_zoom_out);
             }
         });
         tagCloud.setAdapter(adapter);

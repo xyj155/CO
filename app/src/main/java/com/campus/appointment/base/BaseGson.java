@@ -29,6 +29,15 @@ public class BaseGson<T> {
     private boolean success;
     private String msg;
     private List<T> data;
+    private boolean isObserve;
+
+    public boolean isObserve() {
+        return isObserve;
+    }
+
+    public void setObserve(boolean observe) {
+        isObserve = observe;
+    }
 
     public int getCode() {
         return code;

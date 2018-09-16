@@ -39,7 +39,7 @@ public class TagGroupAdapter extends TagsAdapter {
     }
 
     @Override
-    public View getView(final Context context, int position, ViewGroup parent) {
+    public View getView(final Context context, final int position, ViewGroup parent) {
         this.context = context;
         View inflate = LayoutInflater.from(context).inflate(R.layout.home_tag_item_layout, parent, false);
         ImageView ivHead = inflate.findViewById(R.id.iv_head);
@@ -52,7 +52,7 @@ public class TagGroupAdapter extends TagsAdapter {
         inflate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onclickInterface.OnItemClickListener();
+                onclickInterface.OnItemClickListener(position);
             }
         });
         return inflate;
@@ -74,6 +74,6 @@ public class TagGroupAdapter extends TagsAdapter {
     }
 
     public interface OnClickInterface {
-        void OnItemClickListener();
+        void OnItemClickListener(int position);
     }
 }

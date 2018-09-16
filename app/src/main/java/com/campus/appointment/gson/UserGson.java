@@ -38,13 +38,49 @@ public class UserGson {
     private String identity;
     private String tel;
     private String city;
+    private int sex;
+    private String  tag;
+    private String sign;
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
     private String time;
     private String password;
     private String username;
     private String latitude;
     private String longitude;
     private String avatar;
+private int age;
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public int getId() {
         return id;

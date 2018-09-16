@@ -4,9 +4,11 @@ package com.campus.appointment.api;
 import com.campus.appointment.base.BaseGson;
 import com.campus.appointment.base.EmptyGson;
 import com.campus.appointment.gson.Face;
+import com.campus.appointment.gson.MatherPostGson;
 import com.campus.appointment.gson.PostDetail;
 import com.campus.appointment.gson.SquareGson;
 import com.campus.appointment.gson.UserGson;
+import com.campus.appointment.gson.UserInfromationGson;
 
 import java.util.List;
 import java.util.Map;
@@ -95,8 +97,28 @@ public interface API {
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/Post/postComment")
     Observable<BaseGson<EmptyGson>> postComment(@Field("uid") String uid,
-                                                @Field("comment") String comment ,
+                                                @Field("comment") String comment,
                                                 @Field("pid") String pid);    //动态详情
+
     @GET("/CO/public/index.php/index/Face/queryFace")
     Observable<BaseGson<Face>> getFaces();
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/Post/getMatherUserPost")
+    Observable<BaseGson<MatherPostGson>> getMatherUserPost(@Field("uid") String uid,
+                                                           @Field("pid") String pid);
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/User/setObserve")
+    Observable<BaseGson<EmptyGson>> setObserve(@Field("uid") String uid,
+                                                    @Field("pid") String pid,
+                                                    @Field("delete") String delete);
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/User/getUserObservers")
+    Observable<BaseGson<UserGson>> getUserObservers(@Field("uid") String uid);
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/User/getUserInformation")
+    Observable<BaseGson<UserInfromationGson>> getUserInformation(@Field("uid") String uid);
 }

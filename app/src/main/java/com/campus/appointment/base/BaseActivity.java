@@ -1,7 +1,10 @@
 package com.campus.appointment.base;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +33,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     public Dialog dialog;
     private boolean isshowstate;
 
+    private LoginOutReceiver receiver = new LoginOutReceiver();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,13 +44,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView(savedInstanceState);
         //设置数据
         initData();
-
+        registerBroadcast();
     }
 
 
     public void setIsshowtitle(boolean isshowtitle) {
         if (isshowtitle) {
             ImmersionBar.with(this).init();
+        }
+    }
+
+
+    private void registerBroadcast() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("is_exit_app");
+        registerReceiver(receiver, filter);
+
+    }
+
+    class LoginOutReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("is_exit_app")) {
+                finish();
+            }
         }
     }
 
