@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?><!--<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--android:id="@+id/rf_home"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent">--><!--<pl.droidsonroids.gif.GifImageView--><!--android:layout_width="match_parent"--><!--android:layout_height="150dp"--><!--android:scaleType="centerCrop"--><!--android:src="@drawable/refresh_loading"--><!--app:layout_srlSpinnerStyle="Scale"--><!--app:layout_srlBackgroundColor="@android:color/transparent"/>-->
-
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -34,7 +37,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="40dp"
-        android:text="CO"
+        android:text="YOYO"
         android:textColor="#fff"
         android:textSize="27sp"
         app:layout_constraintLeft_toRightOf="parent"
@@ -75,4 +78,15 @@
             android:layout_marginBottom="87dp" />
 
 
-</RelativeLayout><!--</com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
+</RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/flash"
+        app:fabSize="mini"
+        android:id="@+id/fb_flash"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="30dp"/>
+</FrameLayout>
+    <!--</com.scwang.smartrefresh.layout.SmartRefreshLayout>-->

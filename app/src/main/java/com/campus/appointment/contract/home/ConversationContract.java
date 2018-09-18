@@ -62,13 +62,13 @@ public interface ConversationContract {
          */
         void conversionToUser(List<Conversation> conversations);
 
-        void messageToEntity(List<Message> message);
+        void messageToEntity(List<Message> message,String username);
 
         /**
          * im登录
          */
-        void login();
+        void login(String username,String password);
 
-        void getHistoryMessage();
+        void getHistoryMessage(String username);
     }
 }

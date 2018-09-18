@@ -38,7 +38,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:textSize="13sp"
-            android:background="@drawable/home_tv_radius_yellow_30dp"
+            android:background="@drawable/home_tv_radius_pink_30dp"
             android:elevation="3dp"
             android:gravity="center"
             android:paddingBottom="5dp"

@@ -157,7 +157,7 @@ public class EditPostActivity extends BaseActivity implements EditPostContract.V
                 break;
             case R.id.tv_submit:
                 Map<String, RequestBody> partMap = new HashMap<>();
-                partMap.put("uid", toRequestBody("4"));
+                partMap.put("uid", toRequestBody(String.valueOf(getSharedPreferences("user",MODE_PRIVATE).getInt("id",8))));
                 partMap.put("content", toRequestBody(etPost.getText().toString()));
                 partMap.put("location", toRequestBody(getSharedPreferences("user",MODE_PRIVATE).getString("location","")));
                 partMap.put("fell", toRequestBody(tvFell.getText().toString()));

@@ -13,7 +13,14 @@ import rx.Observable;
 
 public class HomeModel implements HomeContract.Model {
     @Override
-    public Observable<BaseGson<UserGson>> queryAroundByGEO(String id, String city, String latitude, String longitude) {
-        return RetrofitUtil.getInstance(RetrofitUtil.BASE_URL).getServerices().queryByGeo(id,city,latitude,longitude);
+    public Observable<BaseGson<UserGson>> queryAroundByGEO(String id,  double latitude, double longitude) {
+        return RetrofitUtil.getInstance(RetrofitUtil.BASE_URL).getServerices().queryByGeo(id,latitude,longitude);
     }
+
+    @Override
+    public Observable<BaseGson<UserGson>> updateLatin(String id, String city, String latitude, String longitude) {
+        return RetrofitUtil.getInstance(RetrofitUtil.BASE_URL).getServerices().updateLatin(id,city,latitude,longitude);
+    }
+
+
 }

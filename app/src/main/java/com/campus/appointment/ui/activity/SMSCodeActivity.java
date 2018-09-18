@@ -65,7 +65,7 @@ public class SMSCodeActivity extends BaseActivity {
                     } else if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                         if (result == SMSSDK.RESULT_COMPLETE) {
                             // TODO 处理验证码验证通过的结果
-                            startActivity(new Intent(SMSCodeActivity.this, HomeActivity.class));
+                            startActivity(new Intent(SMSCodeActivity.this, TelRegisterActivity.class));
                         } else {
                             // TODO 处理错误的结果
                             ToastUtil.showToastError("验证码错误！");
@@ -86,8 +86,7 @@ public class SMSCodeActivity extends BaseActivity {
             @Override
             public boolean beforeStart() {
                 tvSend.start(SMSCodeActivity.this, 60);
-                SharedPreferences editor = getSharedPreferences("tel", MODE_PRIVATE);
-                SMSSDK.getVerificationCode("86", editor.getString("tel", ""));
+                SMSSDK.getVerificationCode("86", getSharedPreferences("user", MODE_PRIVATE).getString("tel", ""));
                 return true;
             }
 
@@ -111,7 +110,7 @@ public class SMSCodeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         SMSSDK.registerEventHandler(eventHandler);
-        SharedPreferences.Editor editor = getSharedPreferences("tel", MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
         editor.putString("tel", getIntent().getStringExtra("tel"));
         editor.apply();
         SMSSDK.getVerificationCode("86", getIntent().getStringExtra("tel"));

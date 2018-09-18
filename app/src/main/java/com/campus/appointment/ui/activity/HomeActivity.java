@@ -1,9 +1,12 @@
 package com.campus.appointment.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.widget.FrameLayout;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -14,6 +17,8 @@ import com.campus.appointment.ui.fragment.FriendsFragment;
 import com.campus.appointment.ui.fragment.HomeFragment;
 import com.campus.appointment.ui.fragment.SquareFragment;
 import com.campus.appointment.ui.fragment.UserFragment;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.permissions.RxPermissions;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -23,7 +28,7 @@ import static com.ashokvarma.bottomnavigation.BottomNavigationBar.MODE_FIXED_NO_
 
 public class HomeActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
-
+    private RxPermissions rxPermissions;
     @InjectView(R.id.main_container)
     FrameLayout mainContainer;
     @InjectView(R.id.bottom_bar)
@@ -33,8 +38,15 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     private SquareFragment squareFragment;
     private UserFragment userFragment;
     private FragmentManager fragmentManager;
-    public FragmentTransaction mFragmentTransaction;
-    public String curFragmentTag = "SquareFragment";
+    public static HomeActivity activity;
+
+    public static HomeActivity getInstance() {
+        if (activity == null) {
+            return new HomeActivity();
+        }
+        return activity;
+    }
+
     @Override
     public int intiLayout() {
         return R.layout.activity_main;
@@ -58,6 +70,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
                 .setTabSelectedListener(this)
                 .initialise();
         fragmentManager = getSupportFragmentManager();
+        getSupportFragmentManager().findFragmentByTag(PictureConfig.FC_TAG);
         final FragmentTransaction transaction = fragmentManager.beginTransaction();
         homeFragment = new HomeFragment();
         transaction.add(R.id.main_container, homeFragment);
@@ -116,7 +129,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
             case 3:
                 if (userFragment == null) {
                     userFragment = new UserFragment();
-                    transaction.add(R.id.main_container, userFragment);
+                    transaction.add(R.id.main_container, userFragment,PictureConfig.FC_TAG);
                 } else {
                     transaction.show(userFragment);
                 }
@@ -140,16 +153,19 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
             transaction.hide(userFragment);
         }
     }
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        Log.i(TAG, "onActivity333Result: " + resultCode + "--------" + requestCode);
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Fragment fragmentByTag = fragmentManager.findFragmentByTag(PictureConfig.FC_TAG);
+        fragmentByTag.onActivityResult(requestCode,resultCode,data);
+        Log.i(TAG, "onActivity333Result: " + resultCode + "--------" + requestCode);
 //        switch (resultCode){
-//            case 0:
-//                Fragment fragment = fragmentManager.getFragments().get(1);
+//            case RESULT_OK:
+//                Fragment fragment = fragmentManager.getFragments().get(3);
 //                fragment.onActivityResult(requestCode, resultCode, data);
 //                break;
 //        }
-//
-//    }
+
+    }
 }

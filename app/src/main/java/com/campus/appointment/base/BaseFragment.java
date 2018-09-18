@@ -1,5 +1,6 @@
 package com.campus.appointment.base;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.campus.appointment.R;
+import com.campus.appointment.weight.AppleDialog;
 
 /**
  * Created by Administrator on 2018/7/9.
@@ -20,7 +22,7 @@ public abstract class BaseFragment extends Fragment {
 
     public static BaseFragment basefragment;
 
-
+    public Dialog dialog;
 
     @Nullable
     @Override
@@ -33,7 +35,14 @@ public abstract class BaseFragment extends Fragment {
         return mContentView;
     }
 
+    public void showmDialog(String msg) {
+        dialog = AppleDialog.createLoadingDialog(getActivity(), msg);
+        dialog.show();
+    }
 
+    public void hidemDialog() {
+        dialog.dismiss();
+    }
     /**
      * 此方法用于返回Fragment设置ContentView的布局文件资源ID
      *

@@ -84,7 +84,6 @@ public class AppIndexActivity extends BaseActivity implements AppIndexContract.V
                     public void onError(Platform arg0, int arg1, Throwable arg2) {
                         // TODO Auto-generated method stub
                         hidemDialog();
-                        Log.i(TAG, "onError: " + arg2.getLocalizedMessage());
                     }
                     @Override
                     public void onComplete(Platform arg0, int arg1, HashMap<String, Object> arg2) {
@@ -96,6 +95,7 @@ public class AppIndexActivity extends BaseActivity implements AppIndexContract.V
                         presenter.loginWithQQ(arg0.getDb().getUserId());
                         SharedPreferences.Editor editor=getSharedPreferences("user",MODE_PRIVATE).edit();
                         editor.putString("username",arg0.getDb().getUserName());
+                        editor.putBoolean("login",true);
                         Log.i(TAG, "onComplete: "+arg0.getDb().getUserName());
                         Log.i(TAG, "onComplete: "+arg0.getDb().getUserIcon());
                         editor.putString("head",arg0.getDb().getUserIcon());
@@ -114,6 +114,7 @@ public class AppIndexActivity extends BaseActivity implements AppIndexContract.V
                 qq.removeAccount(true);
                 break;
             case R.id.btn_tel_login:
+                starActivity(TelLoginActivity.class);
                 break;
         }
     }

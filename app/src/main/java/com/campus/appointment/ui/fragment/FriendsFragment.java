@@ -1,5 +1,7 @@
 package com.campus.appointment.ui.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.campus.appointment.R;
 import com.campus.appointment.base.BaseFragment;
 import com.campus.appointment.base.ToastUtil;
@@ -43,7 +46,7 @@ import pl.droidsonroids.gif.GifImageView;
  * Created by Administrator on 2018/9/4/004.
  */
 
-public class FriendsFragment extends BaseFragment implements FriendsContract.View{
+public class FriendsFragment extends BaseFragment implements FriendsContract.View {
     private static FriendsFragment instance;
     @InjectView(R.id.tv_friend)
     TextView tvFriend;
@@ -57,6 +60,8 @@ public class FriendsFragment extends BaseFragment implements FriendsContract.Vie
     SmartRefreshLayout slFriends;
     @InjectView(R.id.friend)
     RelativeLayout friend;
+    @InjectView(R.id.tv_nodata)
+    TextView tvNodata;
     private FriendsPresenter friendsPresenter;
 
     public static synchronized FriendsFragment getInstance() {
@@ -70,8 +75,7 @@ public class FriendsFragment extends BaseFragment implements FriendsContract.Vie
     @Override
     public void onStart() {
         super.onStart();
-        friendsPresenter.getContactList("3");
-
+        friendsPresenter.getContactList(String.valueOf(getActivity().getSharedPreferences("user", Context.MODE_PRIVATE).getInt("id", 0)));
     }
 
     @Override
@@ -79,17 +83,17 @@ public class FriendsFragment extends BaseFragment implements FriendsContract.Vie
         return R.layout.fragment_friends;
     }
 
+    private static final String TAG = "FriendsFragment";
     @Override
     protected void setUpView(View view, Bundle bundle) {
         ButterKnife.inject(this, view);
         friendsPresenter = new FriendsPresenter(this);
-
         slFriends.autoRefresh();
         slFriends.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 slFriends.finishRefresh(500);
-                friendsPresenter.getContactList("3");
+                friendsPresenter.getContactList(String.valueOf(getActivity().getSharedPreferences("user", Context.MODE_PRIVATE).getInt("id", 8)));
             }
         });
     }
@@ -116,12 +120,20 @@ public class FriendsFragment extends BaseFragment implements FriendsContract.Vie
 
     @Override
     public void showContactList(List<UserGson> userGsons) {
-        ryConversation.setNestedScrollingEnabled(false);
-        ryConversation.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ConversationAdapter adapter = new ConversationAdapter(userGsons);
-        ryConversation.setAdapter(adapter);
+        if (userGsons!=null){
+            if (userGsons.size()==0){
+                tvNodata.setVisibility(View.VISIBLE);
+                ryConversation.setVisibility(View.GONE);
+            }else {
+                tvNodata.setVisibility(View.GONE);
+                ryConversation.setVisibility(View.VISIBLE);
+                ryConversation.setNestedScrollingEnabled(false);
+                ryConversation.setLayoutManager(new LinearLayoutManager(getActivity()));
+                ConversationAdapter adapter = new ConversationAdapter(userGsons);
+                ryConversation.setAdapter(adapter);
+            }
+        }
     }
-
 
 
     private class ConversationAdapter extends BaseQuickAdapter<UserGson, BaseViewHolder> {
@@ -132,19 +144,24 @@ public class FriendsFragment extends BaseFragment implements FriendsContract.Vie
 
         @Override
         protected void convert(final BaseViewHolder helper, final UserGson item) {
-            Glide.with(getActivity()).load(item.getAvatar()).into((ImageView) helper.getView(R.id.iv_head));
+            RequestOptions requestOptions=new RequestOptions()
+                    .error(R.mipmap.co);
+            Glide.with(getActivity()).load(item.getHead()).apply(requestOptions).into((ImageView) helper.getView(R.id.iv_head));
             helper.setText(R.id.tv_username, item.getUsername())
                     .setOnClickListener(R.id.item_friends, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            starActivity(ConversationActivity.class);
+                            Intent intent = new Intent(getActivity(), ConversationActivity.class);
+                            intent.putExtra("tel", item.getTel());
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(R.anim.activity_zoom_in, R.anim.activity_zoom_out);
                         }
                     });
-            IMUtils.login("123456", "123456", new BasicCallback() {
+            IMUtils.login(getActivity().getSharedPreferences("user", Context.MODE_PRIVATE).getString("tel", ""), getActivity().getSharedPreferences("user", Context.MODE_PRIVATE).getString("password", ""), new BasicCallback() {
                 @Override
                 public void gotResult(int i, final String s) {
                     if (i == 0) {
-                        Conversation singleConversation = Conversation.createSingleConversation("456789");
+                        Conversation singleConversation = Conversation.createSingleConversation(item.getTel());
                         Message latestMessage = singleConversation.getLatestMessage();
                         MessageContent content = latestMessage.getContent();
                         TextContent textContent = (TextContent) content;

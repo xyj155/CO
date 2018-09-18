@@ -1,10 +1,11 @@
 package com.campus.appointment.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.campus.appointment.R;
@@ -36,6 +37,8 @@ public class UserDynamicActivity extends BaseActivity implements UserDynamicCont
     TextView idLlOk;
     @InjectView(R.id.sl_single)
     SmartRefreshLayout slSingle;
+    @InjectView(R.id.tv_nodata)
+    TextView tvNodata;
     private UserDynamicPresenter presenter;
 
     @Override
@@ -57,7 +60,7 @@ public class UserDynamicActivity extends BaseActivity implements UserDynamicCont
         slSingle.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                presenter.querySingleUserPost("4");
+                presenter.querySingleUserPost(String.valueOf(getSharedPreferences("user", Context.MODE_PRIVATE).getInt("id", 8)));
                 slSingle.finishRefresh(300);
             }
         });
@@ -72,24 +75,30 @@ public class UserDynamicActivity extends BaseActivity implements UserDynamicCont
 
     @Override
     public void querySingleUserPost(List<SquareGson> squareGsons) {
-        Log.i(TAG, "squareUserActive: " + squareGsons);
-        List<SquareEntity> list = new ArrayList<>();
-        Log.i(TAG, "squareUserActive: " + squareGsons.size());
-        for (int i = 0; i < squareGsons.size(); i++) {
-            SquareGson squareGson = new SquareGson();
-            squareGson.setTitle(squareGsons.get(i).getTitle());
-            squareGson.setLocation(squareGsons.get(i).getLocation());
-            squareGson.setUser(squareGsons.get(i).getUser());
-            squareGson.setWritetime(squareGsons.get(i).getWritetime());
-            if (squareGsons.get(i).getPic_size() > 0) {
-                squareGson.setPics(squareGsons.get(i).getPics());
-                squareGson.setPic_size(squareGsons.get(i).getPic_size());
-                list.add(new SquareEntity(2, squareGson));
-            } else {
-                list.add(new SquareEntity(1, squareGson));
+        if (squareGsons.size()==0){
+            tvNodata.setVisibility(View.VISIBLE);
+            rySingleUserDynamic.setVisibility(View.GONE);
+        }else {
+            tvNodata.setVisibility(View.GONE);
+            rySingleUserDynamic.setVisibility(View.VISIBLE);
+            List<SquareEntity> list = new ArrayList<>();
+            for (int i = 0; i < squareGsons.size(); i++) {
+                SquareGson squareGson = new SquareGson();
+                squareGson.setTitle(squareGsons.get(i).getTitle());
+                squareGson.setLocation(squareGsons.get(i).getLocation());
+                squareGson.setUser(squareGsons.get(i).getUser());
+                squareGson.setWritetime(squareGsons.get(i).getWritetime());
+                if (squareGsons.get(i).getPic_size() > 0) {
+                    squareGson.setPics(squareGsons.get(i).getPics());
+                    squareGson.setPic_size(squareGsons.get(i).getPic_size());
+                    list.add(new SquareEntity(2, squareGson));
+                } else {
+                    list.add(new SquareEntity(1, squareGson));
+                }
             }
+            SingleDynamicAdapter adapter = new SingleDynamicAdapter(list, UserDynamicActivity.this);
+            rySingleUserDynamic.setAdapter(adapter);
         }
-        SingleDynamicAdapter adapter = new SingleDynamicAdapter(list, UserDynamicActivity.this);
-        rySingleUserDynamic.setAdapter(adapter);
+
     }
 }

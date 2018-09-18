@@ -39,7 +39,20 @@
             android:textSize="27sp"
             app:layout_constraintLeft_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="parent" />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/tv_nodata"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="100dp"
+            android:drawableLeft="@mipmap/laught"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="你还没有关注哦！" />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ry_single_user_dynamic"
             android:layout_width="0dp"

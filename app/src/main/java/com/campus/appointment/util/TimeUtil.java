@@ -14,6 +14,16 @@ public class TimeUtil {
      * @param time
      * @return
      */
+    public static long YMDToTimestamp(String time){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        try {
+            Date date = simpleDateFormat.parse(time);
+            long ts = date.getTime() ;
+            return ts;
+        } catch (ParseException e) {
+            return 0;
+        }
+    }
     public static long dateToTimestamp(String time){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {

@@ -7,8 +7,11 @@ import android.widget.EditText;
 
 import com.campus.appointment.R;
 import com.campus.appointment.base.BaseActivity;
-import com.campus.appointment.contract.user.UserContract;
-import com.campus.appointment.presenter.user.UserPresenter;
+import com.campus.appointment.base.BaseGson;
+import com.campus.appointment.base.EmptyGson;
+import com.campus.appointment.base.ToastUtil;
+import com.campus.appointment.contract.home.UserContract;
+import com.campus.appointment.presenter.home.UserPresenter;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -51,13 +54,20 @@ public class SendBugsReportActivity extends BaseActivity implements UserContract
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_submit:
-                userPresenter.sendBugs("3",etContent.getText().toString());
+                userPresenter.sendBugs(String.valueOf(getSharedPreferences("user",MODE_PRIVATE).getInt("id",0)), etContent.getText().toString());
                 break;
         }
-        }
+    }
+
 
     @Override
-    public void sendBugs() {
+    public void loadAvatar(BaseGson<EmptyGson> upload) {
+
+    }
+
+    @Override
+    public void sendBugs(BaseGson<EmptyGson> upload) {
         finish();
+        ToastUtil.showToastSuccess("你的意见提交成功！");
     }
 }

@@ -29,6 +29,8 @@ public class TagGroupAdapter extends TagsAdapter {
         this.context = context;
     }
 
+
+
     @Override
     public int getCount() {
         return list.size();
@@ -47,7 +49,7 @@ public class TagGroupAdapter extends TagsAdapter {
         ivHead.setMaxWidth(20);
         TextView tvUserName = inflate.findViewById(R.id.tv_username);
         tvUserName.setTextSize(5);
-        Glide.with(context).load(list.get(position).getAvatar()).into(ivHead);
+        Glide.with(context).load(list.get(position).getHead()).into(ivHead);
         tvUserName.setText(list.get(position).getUsername());
         inflate.setOnClickListener(new View.OnClickListener() {
             @Override

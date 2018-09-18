@@ -15,6 +15,8 @@ public class BaseGson<T> {
                 ", success=" + success +
                 ", msg='" + msg + '\'' +
                 ", data=" + data +
+                ", isObserve=" + isObserve +
+                ", isFriend=" + isFriend +
                 '}';
     }
 
@@ -30,6 +32,15 @@ public class BaseGson<T> {
     private String msg;
     private List<T> data;
     private boolean isObserve;
+    private int isFriend;
+
+    public int isFriend() {
+        return isFriend;
+    }
+
+    public void setFriend(int friend) {
+        isFriend = friend;
+    }
 
     public boolean isObserve() {
         return isObserve;

@@ -15,6 +15,7 @@ import io.reactivex.disposables.Disposable;
 public class SplashActivity extends BaseActivity {
 
     private RxPermissions rxPermissions;
+    public static SplashActivity instance;
 
     @Override
     public int intiLayout() {
@@ -24,6 +25,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void initView(Bundle savedInstanceState) {
         setIsshowtitle(true);
+        instance = this;
         if (rxPermissions == null) {
             rxPermissions = new RxPermissions(SplashActivity.this);
         }

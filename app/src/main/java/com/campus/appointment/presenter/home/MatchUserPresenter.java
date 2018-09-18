@@ -1,5 +1,7 @@
 package com.campus.appointment.presenter.home;
 
+import android.util.Log;
+
 import com.campus.appointment.base.BaseGson;
 import com.campus.appointment.base.BaseObserver;
 import com.campus.appointment.base.EmptyGson;
@@ -17,16 +19,48 @@ import rx.schedulers.Schedulers;
 
 public class MatchUserPresenter implements MatchUserContract.Presenter {
     private MatchUserContract.View view;
-    private MatchUserModel matchUserModel=new MatchUserModel();
+    private MatchUserModel matchUserModel = new MatchUserModel();
+    private static final String TAG = "MatchUserPresenter";
 
     public MatchUserPresenter(MatchUserContract.View view) {
         this.view = view;
     }
 
     @Override
-    public void getMatherUserPost(String uid,String pid) {
+    public void addNewFriends(String pid, String uid) {
+        Log.i(TAG, "addNewFriends: "+pid+"---"+uid);
+        matchUserModel.addNewFriends(pid, uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<BaseGson<EmptyGson>>() {
+                    @Override
+                    public void onError(String error) {
+                        Log.i(TAG, "onError: " + error);
+                        ToastUtil.showToastError("添加失败");
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseGson<EmptyGson> userGsonBaseGson) {
+                        Log.i(TAG, "onNext: " + userGsonBaseGson.getData());
+                        if (userGsonBaseGson.isSuccess()) {
+                            ToastUtil.showToastSuccess("添加成功");
+                        } else {
+                            ToastUtil.showToastError("添加失败");
+                        }
+
+                    }
+                });
+    }
+
+    @Override
+    public void getMatherUserPost(String uid, String pid) {
         view.showDialog("数据加载中...");
-        matchUserModel.getMatherUserPost(uid,pid)
+        matchUserModel.getMatherUserPost(uid, pid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<BaseGson<MatherPostGson>>() {
@@ -44,10 +78,18 @@ public class MatchUserPresenter implements MatchUserContract.Presenter {
                     @Override
                     public void onNext(BaseGson<MatherPostGson> squareGsonBaseGson) {
                         view.hideDialog();
+                        Log.i(TAG, "onNext: "+squareGsonBaseGson);
                         if (squareGsonBaseGson.isSuccess()) {
                             view.isObserve(squareGsonBaseGson.isObserve());
-                            view.loadMatherUserPost(squareGsonBaseGson.getData());
-                        }else {
+//                            view.isFriends(squareGsonBaseGson.isObserve());
+                            view.loadMatcherUserPost(squareGsonBaseGson.getData());
+                            if (squareGsonBaseGson.isFriend()==0){
+                                view.isFriends(false);
+                            }else {
+                                view.isFriends(true);
+                            }
+
+                        } else {
                             ToastUtil.showToastError("获取个人信息出错");
                         }
                     }
@@ -56,7 +98,7 @@ public class MatchUserPresenter implements MatchUserContract.Presenter {
 
     @Override
     public void setObserve(String uid, String pid, String delete) {
-        matchUserModel.setObserve(uid,pid,delete)
+        matchUserModel.setObserve(uid, pid, delete)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<BaseGson<EmptyGson>>() {

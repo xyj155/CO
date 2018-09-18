@@ -26,6 +26,8 @@ public class Tag {
                 Constants.DEFAULT_TAG_IS_DELETABLE, Constants.DEFAULT_TAG_DELETE_INDICATOR_COLOR, Constants.DEFAULT_TAG_DELETE_INDICATOR_SIZE, Constants.DEFAULT_TAG_RADIUS, Constants.DEFAULT_TAG_DELETE_ICON, Constants.DEFAULT_TAG_LAYOUT_BORDER_SIZE, Constants.DEFAULT_TAG_LAYOUT_BORDER_COLOR);
     }
 
+
+
     private void init(int id, String text, int tagTextColor, float tagTextSize,
                       int layoutColor, int layoutColorPress, boolean isDeletable,
                       int deleteIndicatorColor,float deleteIndicatorSize, float radius,

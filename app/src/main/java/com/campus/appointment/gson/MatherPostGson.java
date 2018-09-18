@@ -8,6 +8,22 @@ import java.util.List;
 
 public class MatherPostGson {
 
+    @Override
+    public String toString() {
+        return "MatherPostGson{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", writetime='" + writetime + '\'' +
+                ", location='" + location + '\'' +
+                ", uid=" + uid +
+                ", fell=" + fell +
+                ", is_post=" + is_post +
+                ", isFriend=" + isFriend +
+                ", pic=" + pic +
+                ", is_friend=" + is_friend +
+                '}';
+    }
+
     /**
      * id : 1
      * title : 根据中央机构编制委员会办公室在中国机构编制网上给出的定义，“三定”规定就是对一个部门的主要职责、内设机构、人员编制及领导职数等三大内容进行确定。 按照规定的统一体例和审核、审批程序，由党委、政府印发的“职能配置、内设机构和人员编制规定”，是具有一定法律效力的规范性文件。
@@ -19,6 +35,7 @@ public class MatherPostGson {
      * pic : []
      */
 
+
     private int id;
     private String title;
     private String writetime;
@@ -26,7 +43,26 @@ public class MatherPostGson {
     private int uid;
     private Object fell;
     private int is_post;
+    private int isFriend;
+
+    public int getIsFriend() {
+        return isFriend;
+    }
+
+    public void setIsFriend(int isFriend) {
+        this.isFriend = isFriend;
+    }
+
     private List<Pic> pic;
+    private int is_friend;
+
+    public int getIs_friend() {
+        return is_friend;
+    }
+
+    public void setIs_friend(int is_friend) {
+        this.is_friend = is_friend;
+    }
 
     public int getId() {
         return id;

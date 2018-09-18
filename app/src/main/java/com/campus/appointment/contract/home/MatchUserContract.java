@@ -17,7 +17,7 @@ public interface MatchUserContract {
         Observable<BaseGson<MatherPostGson>> getMatherUserPost(String uid,String pid);
 
         Observable<BaseGson<EmptyGson>> setObserve(String uid, String pid, String delete);
-
+        Observable<BaseGson<EmptyGson>> addNewFriends(String pid, String uid);
     }
 
     interface View {
@@ -27,13 +27,16 @@ public interface MatchUserContract {
 
         void isObserve(boolean isObserve);
 
-        void loadMatherUserPost(List<MatherPostGson> squareGsons);
+        void loadMatcherUserPost(List<MatherPostGson> squareGsons);
 
         void isDeleteObserve(int code);
+
+        void isFriends(boolean friends);
     }
 
     interface Presenter {
         void getMatherUserPost(String uid,String pid);
         void setObserve(String uid,String pid,String delete);
+        void addNewFriends(String pid, String uid);
     }
 }

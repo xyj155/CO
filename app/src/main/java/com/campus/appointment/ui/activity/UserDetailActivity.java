@@ -1,5 +1,6 @@
 package com.campus.appointment.ui.activity;
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.campus.appointment.R;
 import com.campus.appointment.base.BaseActivity;
 import com.campus.appointment.contract.home.UserDetailContract;
@@ -65,7 +67,9 @@ public class UserDetailActivity extends BaseActivity implements UserDetailContra
 
     @Override
     public void initData() {
-        userDetailPresenter.querySingleUser("3");
+        userDetailPresenter.querySingleUser(String.valueOf(getSharedPreferences("user", Context.MODE_PRIVATE).getInt("id", 8)));
+        RequestOptions requestOptions = new RequestOptions().error(R.mipmap.co);
+        Glide.with(UserDetailActivity.this).load(getSharedPreferences("user", MODE_PRIVATE).getString("head", "")).apply(requestOptions).into(circleImageView3);
     }
 
     @Override
@@ -88,7 +92,9 @@ public class UserDetailActivity extends BaseActivity implements UserDetailContra
     public void loadUserinfor(UserInfromationGson getSingleUser) {
         List<Tag> tags = new ArrayList<>();
         String tag = getSingleUser.getTag();
-        Glide.with(UserDetailActivity.this).load(getSingleUser.getAvatar()).into(circleImageView3);
+        RequestOptions requestOptions=new RequestOptions()
+                .error(R.mipmap.co);
+        Glide.with(UserDetailActivity.this).load(getSingleUser.getHead()).apply(requestOptions).into(circleImageView3);
         tvUsername.setText(getSingleUser.getUsername());
         tvSign.setText(getSingleUser.getSign());
         tvAgeLocation.setText(getSingleUser.getAge() + " 岁  " + getSingleUser.getCity());
@@ -100,35 +106,32 @@ public class UserDetailActivity extends BaseActivity implements UserDetailContra
             tags.add(new Tag(split[i]));
         }
         tagGroup.addTags(tags);
-        tagGroup.setOnTagClickListener(new TagView.OnTagClickListener() {
-            @Override
-            public void onTagClick(Tag tag, int position) {
-            }
-        });
         SquareMsgAdapter adapter = new SquareMsgAdapter(getSingleUser.getPic());
-        ryPiclist.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        ryPiclist.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         ryPiclist.setAdapter(adapter);
-        SpacesItemDecoration decoration=new SpacesItemDecoration(16);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(16);
         ryPiclist.addItemDecoration(decoration);
     }
+
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
 
         private int space;
 
         public SpacesItemDecoration(int space) {
-            this.space=space;
+            this.space = space;
         }
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            outRect.left=space;
-            outRect.right=space;
-            outRect.bottom=space;
-            if(parent.getChildAdapterPosition(view)==0){
-                outRect.top=space;
+            outRect.left = space;
+            outRect.right = space;
+            outRect.bottom = space;
+            if (parent.getChildAdapterPosition(view) == 0) {
+                outRect.top = space;
             }
         }
     }
+
     private class SquareMsgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
         public SquareMsgAdapter(@Nullable List<String> data) {

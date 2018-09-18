@@ -15,6 +15,7 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -22,6 +23,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
+import retrofit2.http.Streaming;
 import rx.Observable;
 
 /**
@@ -33,16 +35,15 @@ public interface API {
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/Around/searchUserAround")
     Observable<BaseGson<UserGson>> queryByGeo(@Field("id") String id,
-                                              @Field("city") String city,
-                                              @Field("latitude") String latitude,
-                                              @Field("longitude") String longitude);
+                                              @Field("latitude") double latitude,
+                                              @Field("longitude") double longitude);
 
 
     //注册
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/User/UserLogin")
     Observable<BaseGson<UserGson>> loginWithUserName(@Field("username") String username,
-                                                     @Field("password") String password);    //注册
+                                                     @Field("password") String password);
 
     //QQ登陆
     @FormUrlEncoded
@@ -111,8 +112,8 @@ public interface API {
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/User/setObserve")
     Observable<BaseGson<EmptyGson>> setObserve(@Field("uid") String uid,
-                                                    @Field("pid") String pid,
-                                                    @Field("delete") String delete);
+                                               @Field("pid") String pid,
+                                               @Field("delete") String delete);
 
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/User/getUserObservers")
@@ -121,4 +122,35 @@ public interface API {
     @FormUrlEncoded
     @POST("/CO/public/index.php/index/User/getUserInformation")
     Observable<BaseGson<UserInfromationGson>> getUserInformation(@Field("uid") String uid);
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/User/register")
+    Observable<BaseGson<EmptyGson>> register(@Field("username") String username,
+                                             @Field("password") String password,
+                                             @Field("tel") String tel,
+                                             @Field("age") String age,
+                                             @Field("sex") String sex,
+                                             @Field("sign") String sign,
+                                             @Field("tag") String tag
+    );
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/User/updateLatin")
+    Observable<BaseGson<UserGson>> updateLatin(@Field("uid") String uid,
+                                             @Field("city") String city,
+                                             @Field("latitude") String latitude,
+                                             @Field("longitude") String longitude);
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/User/isHaveUsername")
+    Observable<BaseGson<EmptyGson>> isHaveUsername(@Field("tel") String uid);
+
+    @Streaming
+    @Multipart
+    @POST("/CO/public/index.php/index/User/updateUserAvatar")
+    Call<BaseGson<EmptyGson>> updateUserAvatar(@Part("id") RequestBody id, @Part MultipartBody.Part part);
+
+    @FormUrlEncoded
+    @POST("/CO/public/index.php/index/User/addNewFriends")
+    Observable<BaseGson<EmptyGson>> addNewFriends(@Field("pid") String pid,
+                                                  @Field("uid") String uid);
 }

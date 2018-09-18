@@ -43,7 +43,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -51,9 +50,7 @@ import butterknife.OnClick;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.content.MessageContent;
 import cn.jpush.im.android.api.content.TextContent;
-import cn.jpush.im.android.api.event.ConversationRefreshEvent;
 import cn.jpush.im.android.api.event.MessageEvent;
-import cn.jpush.im.android.api.event.OfflineMessageEvent;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.Message;
 
@@ -100,7 +97,7 @@ public class ConversationActivity extends BaseActivity implements ConversationCo
     TextView tvVoice;
 
     private List<Message> messages = new ArrayList<>();
-    private ConversationAdapter mChatAdapter = new ConversationAdapter(null,ConversationActivity.this);
+    private ConversationAdapter mChatAdapter = new ConversationAdapter(null, ConversationActivity.this);
     private Conversation mConversation;
     private Message message1;
     private ConversationPresenter presenter = new ConversationPresenter(this);
@@ -116,7 +113,6 @@ public class ConversationActivity extends BaseActivity implements ConversationCo
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        presenter.login();
         ButterKnife.inject(this);
     }
 
@@ -129,7 +125,7 @@ public class ConversationActivity extends BaseActivity implements ConversationCo
 
     @Override
     public void initData() {
-
+        presenter.login(getSharedPreferences("user", MODE_PRIVATE).getString("tel", ""), getSharedPreferences("user", MODE_PRIVATE).getString("password", ""));
     }
 
 
@@ -164,15 +160,14 @@ public class ConversationActivity extends BaseActivity implements ConversationCo
     @Override
     public void loginSuccess() {
         showmDialog("数据加载中...");
-        Log.i(TAG, "loginSuccess: "+getIntent().getStringExtra("tel"));
+        Log.i(TAG, "loginSuccess: " + getIntent().getStringExtra("tel"));
+        presenter.getHistoryMessage(getIntent().getStringExtra("tel"));
         mConversation = Conversation.createSingleConversation(getIntent().getStringExtra("tel"));
-        String title = mConversation.getTitle();
-        Log.i(TAG, "loginSuccess: " + title);
         if (mConversation != null) {
             List<Message> allMessage = mConversation.getAllMessage();
             if (allMessage != null) {
                 messages.addAll(allMessage);
-                presenter.messageToEntity(messages);
+                presenter.messageToEntity(messages, getSharedPreferences("user", MODE_PRIVATE).getString("tel", ""));
                 hidemDialog();
                 Log.i(TAG, "initView: " + allMessage);
             }
@@ -192,8 +187,8 @@ public class ConversationActivity extends BaseActivity implements ConversationCo
                         message1 = IMUtils.sendTextMessage(mConversation, content);
                         etComment.setText("");
                         messages.add(message1);
+                        presenter.messageToEntity(messages, getSharedPreferences("user", MODE_PRIVATE).getString("tel", ""));
                         presenter.sendMessage(message1);
-                        presenter.messageToEntity(messages);
                         Message latestMessage = mConversation.getLatestMessage();
                         Intent intent = new Intent();
                         intent.setAction("com.campus.appointment.broadcast.JIM_MESSAGE");
@@ -211,53 +206,36 @@ public class ConversationActivity extends BaseActivity implements ConversationCo
 
     @Override
     public void loadHistoryMessage(final List<Message> messages) {
-
+        for (Message message : messages) {
+            messages.add(message);
+        }
+        presenter.messageToEntity(messages, getSharedPreferences("user", MODE_PRIVATE).getString("tel", ""));
     }
 
     @Override
     public void showDialog(String msg) {
-
+        showmDialog(msg);
     }
 
-
-    /**
-     * 类似MessageEvent事件的接收，上层在需要的地方增加OfflineMessageEvent事件的接收
-     * 即可实现离线消息的接收。
-     **/
-    public void onEvent(OfflineMessageEvent event) {
-        //获取事件发生的会话对象
-        Conversation conversation = event.getConversation();
-        List<Message> newMessageList = event.getOfflineMessageList();//获取此次离线期间会话收到的新消息列表
-        for (Message message : newMessageList) {
-            messages.add(message);
-        }
-        System.out.println(String.format(Locale.SIMPLIFIED_CHINESE, "收到%d条来自%s的离线消息。\n", newMessageList.size(), conversation.getTargetId()));
-    }
-
-    public void onEvent(MessageEvent event) {
+    public void onEventMainThread(MessageEvent event) {
         Message msg = event.getMessage();
         messages.add(msg);
-        presenter.messageToEntity(messages);
-        Log.i(TAG, "onEvent: " + event.getMessage());
+        presenter.messageToEntity(messages, getSharedPreferences("user", MODE_PRIVATE).getString("tel", ""));
+        Log.i(TAG, "onEventMainThread: "+msg.getContent());
+//        switch (msg.getContentType()) {
+//            case text:
+//                // 处理文字消息
+//                TextContent textContent = (TextContent) msg.getContent();
+//                textContent.getText();
+//                txt_sms.append(textContent.getText());
+//                break;
+//        }
     }
 
-    /**
-     * 如果在JMessageClient.init时启用了消息漫游功能，则每当一个会话的漫游消息同步完成时
-     * sdk会发送此事件通知上层。
-     **/
-    public void onEvent(ConversationRefreshEvent event) {
-        //获取事件发生的会话对象
-        Conversation conversation = event.getConversation();
-        //获取事件发生的原因，对于漫游完成触发的事件，此处的reason应该是
-        //MSG_ROAMING_COMPLETE
-        ConversationRefreshEvent.Reason reason = event.getReason();
-        System.out.println(String.format(Locale.SIMPLIFIED_CHINESE, "收到ConversationRefreshEvent事件,待刷新的会话是%s.\n", conversation.getTargetId()));
-        System.out.println("事件发生的原因 : " + reason);
-    }
 
     @Override
     public void hideDialog() {
-
+        hidemDialog();
     }
 
     private Date curDate;
@@ -303,7 +281,7 @@ public class ConversationActivity extends BaseActivity implements ConversationCo
                                 case KeyEvent.ACTION_UP:
                                     Date endDate = new Date(System.currentTimeMillis());
                                     diff = endDate.getTime() - curDate.getTime();
-                                    Log.i(TAG, "onTouch: "+(int)diff/1000);
+                                    Log.i(TAG, "onTouch: " + (int) diff / 1000);
                                     AudioRecordManager.getInstance(ConversationActivity.this).stopRecord();
                                     tvVoice.setText("请按下说话");
                                     break;
@@ -353,10 +331,10 @@ public class ConversationActivity extends BaseActivity implements ConversationCo
                             String path = uri.getPath();
                             Log.i(TAG, "onFinish: " + path);
                             try {
-                                final Message imageMessage = IMUtils.createVoiceMessage("456789", new File(path), (int)diff/1000);
+                                final Message imageMessage = IMUtils.createVoiceMessage(getIntent().getStringExtra("tel"), new File(path), (int) diff / 1000);
                                 messages.add(imageMessage);
                                 presenter.sendMessage(imageMessage);
-                                presenter.messageToEntity(messages);
+                                presenter.messageToEntity(messages, getSharedPreferences("user", MODE_PRIVATE).getString("tel", ""));
                             } catch (FileNotFoundException e) {
                                 e.printStackTrace();
                             }
@@ -408,10 +386,10 @@ public class ConversationActivity extends BaseActivity implements ConversationCo
                     List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
                     Log.i(TAG, "onActivityResult: " + selectList.get(0).getCompressPath());
                     try {
-                        Message imageMessage = IMUtils.createImageMessage("456789", selectList.get(0).getCompressPath());
+                        Message imageMessage = IMUtils.createImageMessage(getIntent().getStringExtra("tel"), selectList.get(0).getCompressPath());
                         messages.add(imageMessage);
+                        presenter.messageToEntity(messages, getSharedPreferences("user", MODE_PRIVATE).getString("tel", ""));
                         presenter.sendMessage(imageMessage);
-                        presenter.messageToEntity(messages);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -437,13 +415,13 @@ public class ConversationActivity extends BaseActivity implements ConversationCo
                         @Override
                         public void run() {
                             try {
-                                final Message imageMessage = IMUtils.createURLImageMessage("456789", face.getFace());
+                                final Message imageMessage = IMUtils.createURLImageMessage(getIntent().getStringExtra("tel"), face.getFace());
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         messages.add(imageMessage);
                                         presenter.sendMessage(imageMessage);
-                                        presenter.messageToEntity(messages);
+                                        presenter.messageToEntity(messages, getSharedPreferences("user", MODE_PRIVATE).getString("tel", ""));
                                     }
                                 });
 

@@ -71,7 +71,7 @@ public class UserGson {
     private String username;
     private String latitude;
     private String longitude;
-    private String avatar;
+    private String head;
 private int age;
 
     public int getAge() {
@@ -150,12 +150,12 @@ private int age;
         return longitude;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getHead() {
+        return head;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setHead(String head) {
+        this.head = head;
     }
 
     public void setLongitude(String longitude) {

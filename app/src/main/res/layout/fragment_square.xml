@@ -55,6 +55,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:id="@+id/tv_nodata"
+                    android:layout_marginTop="80dp"
+                    android:drawableLeft="@mipmap/laught"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="你还没有动态哦！" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/ry_square"

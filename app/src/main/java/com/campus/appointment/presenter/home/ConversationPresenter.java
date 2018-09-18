@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.content.MessageContent;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.Message;
 import cn.jpush.im.api.BasicCallback;
@@ -62,9 +61,10 @@ public class ConversationPresenter implements ConversationContract.Presenter {
     @Override
     public void sendMessage(Message message) {
         if (message == null) {
-            ToastUtil.showToastError("发送失败");
+            ToastUtil.showToastError("发送不可为空");
             return;
         }
+        JMessageClient.sendMessage(message);
         message.setOnSendCompleteCallback(new BasicCallback() {
             @Override
             public void gotResult(int code, String s) {
@@ -75,20 +75,18 @@ public class ConversationPresenter implements ConversationContract.Presenter {
                 }
             }
         });
-        JMessageClient.sendMessage(message);
     }
 
     @Override
     public void conversionToUser(List<Conversation> conversations) {
-
     }
 
     @Override
-    public void messageToEntity(List<Message> messages) {
+    public void messageToEntity(List<Message> messages, String username) {
         Log.i(TAG, "messageToEntity: " + messages.size());
         List<ConversationEntity> list = new ArrayList<>();
         for (Message message : messages) {
-            if (message.getFromName().equals("123456")) {
+            if (message.getFromName().equals(username)) {
                 list.add(ConversationEntity.client(message));
             } else {
                 list.add(ConversationEntity.service(message));
@@ -98,8 +96,9 @@ public class ConversationPresenter implements ConversationContract.Presenter {
     }
 
     @Override
-    public void login() {
-        IMUtils.login("123456", "123456", new BasicCallback() {
+    public void login(String username, String password) {
+        view.showDialog("登陆中...");
+        IMUtils.login(username, password, new BasicCallback() {
             @Override
             public void gotResult(int i, final String s) {
                 if (i == 0) {
@@ -115,12 +114,17 @@ public class ConversationPresenter implements ConversationContract.Presenter {
 
 
     @Override
-    public void getHistoryMessage() {
-        Conversation conversation = JMessageClient.getSingleConversation("123456789");
+    public void getHistoryMessage(String username) {
+        Conversation conversation = JMessageClient.getSingleConversation(username);
         List<Message> allMessage = conversation.getAllMessage();
-        for (Message m : allMessage) {
-            MessageContent content = m.getContent();
-            Log.i(TAG, "getHistoryMessage: " + content.toJson());
+        List<ConversationEntity> list = new ArrayList<>();
+        for (Message message : allMessage) {
+            if (message.getFromName().equals(username)) {
+                list.add(ConversationEntity.client(message));
+            } else {
+                list.add(ConversationEntity.service(message));
+            }
         }
+        view.getConversation(list);
     }
 }

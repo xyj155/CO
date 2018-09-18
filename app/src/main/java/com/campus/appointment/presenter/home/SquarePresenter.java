@@ -93,7 +93,6 @@ public class SquarePresenter implements SquareContract.Presenter {
 
                     @Override
                     public void onNext(BaseGson<EmptyGson> listBaseGson) {
-
                         if (listBaseGson.isSuccess()) {
                             view.sendReport(listBaseGson.getData());
                         }

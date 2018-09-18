@@ -1,5 +1,7 @@
 package com.campus.appointment.presenter.home;
 
+import android.util.Log;
+
 import com.campus.appointment.base.BaseGson;
 import com.campus.appointment.base.BaseObserver;
 import com.campus.appointment.base.ToastUtil;
@@ -22,6 +24,8 @@ public class FriendsPresenter implements FriendsContract.Presenter {
         this.view = view;
     }
 
+    private static final String TAG = "FriendsPresenter";
+
     @Override
     public void getContactList(String uid) {
         model.getContactList(uid)
@@ -40,11 +44,8 @@ public class FriendsPresenter implements FriendsContract.Presenter {
 
                     @Override
                     public void onNext(BaseGson<UserGson> userGsonBaseGson) {
-                        if (userGsonBaseGson.isSuccess()) {
-                            view.showContactList(userGsonBaseGson.getData());
-                        }else {
-                            ToastUtil.showToastError("获取联系人列表出错");
-                        }
+                        Log.i(TAG, "onNext: " + userGsonBaseGson);
+                        view.showContactList(userGsonBaseGson.getData());
                     }
                 });
     }

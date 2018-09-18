@@ -94,6 +94,7 @@ public class UserPostDetailActivity extends BaseActivity implements UserPostDeta
     TextView btnSend;
     private UserPostDetailPresenter postDetailPresenter;
     private SquarePresenter presenter;
+
     @Override
     public int intiLayout() {
         return R.layout.activity_user_post_detail;
@@ -171,8 +172,6 @@ public class UserPostDetailActivity extends BaseActivity implements UserPostDeta
         sp.putString("pid", getIntent().getStringExtra("id"));
         sp.putInt("item", getIntent().getIntExtra("item", 8));
         sp.apply();
-        Log.i(TAG, "onCreate: "
-                + getIntent().getIntExtra("puid", 0) + "----" + String.valueOf(getIntent().getStringExtra("id") + "----" + String.valueOf(getIntent().getStringExtra("uid"))));
         postDetailPresenter.querySinglePost(String.valueOf(
                 getIntent().getIntExtra("puid", 0)),
                 String.valueOf(getIntent().getStringExtra("id")),
@@ -277,7 +276,6 @@ public class UserPostDetailActivity extends BaseActivity implements UserPostDeta
 
         @Override
         protected void convert(BaseViewHolder helper, PostDetail.PicBean item) {
-
             ImageView imageView = helper.getView(R.id.iv_pic_msg);
             RequestOptions options = new RequestOptions()
                     .centerCrop()
@@ -289,7 +287,6 @@ public class UserPostDetailActivity extends BaseActivity implements UserPostDeta
                     .transition(DrawableTransitionOptions.withCrossFade()).apply(options).into(imageView);
         }
     }
-
 
 
     @Override

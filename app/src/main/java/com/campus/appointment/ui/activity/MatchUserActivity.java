@@ -69,10 +69,13 @@ public class MatchUserActivity extends BaseActivity implements MatchUserContract
     ImageView ivSex;
     @InjectView(R.id.tv_chat)
     TextView tvChat;
+    @InjectView(R.id.tv_add)
+    TextView tvAdd;
     private boolean isShow = true;
     private UnderLineLinearLayout mUnderLineLinearLayout;
     private MatchUserPresenter matchUserPresenter;
     boolean isObserve = false;
+    boolean isFriends = false;
 
 
     @Override
@@ -86,10 +89,10 @@ public class MatchUserActivity extends BaseActivity implements MatchUserContract
         setIsshowtitle(true);
         matchUserPresenter = new MatchUserPresenter(this);
         String tel = getIntent().getStringExtra("tel");
-        SharedPreferences.Editor editor=getSharedPreferences("matcher",MODE_PRIVATE).edit();
-        editor.putString("tel",tel);
+        SharedPreferences.Editor editor = getSharedPreferences("matcher", MODE_PRIVATE).edit();
+        editor.putString("tel", tel);
         editor.apply();
-        Log.i(TAG, "initView: "+getIntent().getStringExtra("tel"));
+        Log.i(TAG, "initView: " + getIntent().getStringExtra("tel"));
     }
 
     @Override
@@ -111,8 +114,10 @@ public class MatchUserActivity extends BaseActivity implements MatchUserContract
                 }
             }
         });
-        matchUserPresenter.getMatherUserPost(String.valueOf(getIntent().getIntExtra("id", 3)), "3");
+        Log.i(TAG, "initData: "+String.valueOf(getIntent().getIntExtra("id", 3)+"---------"+String.valueOf(getSharedPreferences("user",MODE_PRIVATE).getInt("id",5))));
+        matchUserPresenter.getMatherUserPost( String.valueOf(getIntent().getIntExtra("id", 3)),String.valueOf(getSharedPreferences("user",MODE_PRIVATE).getInt("id",5)));
         Glide.with(MatchUserActivity.this).load(getIntent().getStringExtra("url")).into(ivUserHead);
+        Glide.with(MatchUserActivity.this).load(getSharedPreferences("user",MODE_PRIVATE).getString("head","")).into(ivMatcherHead);
         tvUsername.setText(getIntent().getStringExtra("username"));
         tvAgeLocation.setText(getIntent().getIntExtra("age", 0) + "  岁  " + getIntent().getStringExtra("location"));
         if (getIntent().getIntExtra("sex", 2) == 0) {
@@ -149,7 +154,7 @@ public class MatchUserActivity extends BaseActivity implements MatchUserContract
     public void isObserve(boolean isObserves) {
         if (isObserves) {
             isObserve = false;
-            rbObserver.setBackgroundResource(R.drawable.home_tv_radius_yellow_30dp);
+            rbObserver.setBackgroundResource(R.drawable.home_tv_radius_pink_30dp);
             rbObserver.setText("已关注");
         } else {
             isObserve = true;
@@ -159,7 +164,7 @@ public class MatchUserActivity extends BaseActivity implements MatchUserContract
     }
 
     @Override
-    public void loadMatherUserPost(List<MatherPostGson> squareGsons) {
+    public void loadMatcherUserPost(List<MatherPostGson> squareGsons) {
         if (squareGsons.size() == 0) {
             tvNoInfor.setVisibility(View.VISIBLE);
         } else {
@@ -194,18 +199,34 @@ public class MatchUserActivity extends BaseActivity implements MatchUserContract
         }
     }
 
-    @OnClick({R.id.tv_observer, R.id.tv_chat})
+    @Override
+    public void isFriends(boolean friends) {
+        if (friends) {
+            tvAdd.setText("  已添加好友");
+            tvAdd.setClickable(false);
+        } else {
+            tvAdd.setText("添加好友");
+        }
+    }
+
+    @OnClick({R.id.tv_observer, R.id.tv_chat, R.id.tv_add})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tv_add:
+                Log.i(TAG, "onViewClicked: "+String.valueOf(getSharedPreferences("user", MODE_PRIVATE).getInt("id", 2))+"--------"+String.valueOf(getIntent().getIntExtra("id", 0)));
+                matchUserPresenter.addNewFriends(String.valueOf(getSharedPreferences("user", MODE_PRIVATE).getInt("id", 2)), String.valueOf(getIntent().getIntExtra("id", 0)));
+                tvAdd.setText("  已添加好友");
+                tvAdd.setClickable(false);
+                break;
             case R.id.tv_observer:
                 if (isObserve) {
-                    matchUserPresenter.setObserve(String.valueOf(getIntent().getIntExtra("id", 0)), "3", "1");
-                    rbObserver.setBackgroundResource(R.drawable.home_tv_radius_yellow_30dp);
+                    matchUserPresenter.setObserve(String.valueOf(getIntent().getIntExtra("id", 0)), String.valueOf(getSharedPreferences("user", MODE_PRIVATE).getInt("id", 0)), "1");
+                    rbObserver.setBackgroundResource(R.drawable.home_tv_radius_pink_30dp);
                     rbObserver.setText("已关注");
                     isObserve = false;
                 } else {
 
-                    matchUserPresenter.setObserve(String.valueOf(getIntent().getIntExtra("id", 0)), "3", "0");
+                    matchUserPresenter.setObserve(String.valueOf(getIntent().getIntExtra("id", 0)), String.valueOf(getSharedPreferences("user", MODE_PRIVATE).getInt("id", 0)), "0");
                     rbObserver.setBackgroundResource(R.drawable.home_tv_radius_blue_30dp);
                     rbObserver.setText("关注");
                     isObserve = true;
@@ -213,7 +234,7 @@ public class MatchUserActivity extends BaseActivity implements MatchUserContract
                 break;
             case R.id.tv_chat:
                 Intent intent = new Intent(MatchUserActivity.this, ConversationActivity.class);
-                intent.putExtra("tel", getSharedPreferences("matcher",MODE_PRIVATE).getString("tel",""));
+                intent.putExtra("tel", getSharedPreferences("matcher", MODE_PRIVATE).getString("tel", ""));
                 startActivity(intent);
                 overridePendingTransition(R.anim.activity_zoom_in, R.anim.activity_zoom_out);
                 break;

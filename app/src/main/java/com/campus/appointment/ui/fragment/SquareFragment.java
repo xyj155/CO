@@ -2,6 +2,7 @@ package com.campus.appointment.ui.fragment;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -63,6 +64,8 @@ public class SquareFragment extends BaseFragment implements SquareContract.View,
     SmartRefreshLayout slSquare;
     @InjectView(R.id.fb_square)
     FloatingActionButton fbSquare;
+    @InjectView(R.id.tv_nodata)
+    TextView tvNodata;
     private int distance;
     private boolean visible = true;
     private SquarePresenter squarePresenter;
@@ -94,7 +97,7 @@ public class SquareFragment extends BaseFragment implements SquareContract.View,
         slSquare.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                squarePresenter.squareUserActive("3");
+                squarePresenter.squareUserActive(String.valueOf(getActivity().getSharedPreferences("user", Context.MODE_PRIVATE).getInt("id", 8)));
                 slSquare.finishRefresh(300);
             }
         });
@@ -169,33 +172,36 @@ public class SquareFragment extends BaseFragment implements SquareContract.View,
 
     @Override
     public void squareUserActive(List<SquareGson> squareGsons) {
-        Log.i(TAG, "squareUserActive: " + squareGsons);
-        List<SquareEntity> list = new ArrayList<>();
-        Log.i(TAG, "squareUserActive: " + squareGsons.size());
-        for (int i = 0; i < squareGsons.size(); i++) {
-            SquareGson squareGson = new SquareGson();
-            squareGson.setTitle(squareGsons.get(i).getTitle());
-            squareGson.setLocation(squareGsons.get(i).getLocation());
-            squareGson.setUser(squareGsons.get(i).getUser());
-            squareGson.setComment(squareGsons.get(i).getComment());
-            Log.i(TAG, "getComment: " + squareGsons.get(i).getComment());
-            Log.i(TAG, "getThumb: " + squareGsons.get(i).getThumb());
-            squareGson.setLike(squareGsons.get(i).isLike());
-            squareGson.setThumb(squareGsons.get(i).getThumb());
-            Log.i(TAG, "squareUserActive: " + squareGsons.get(i).getId());
-            squareGson.setId(squareGsons.get(i).getId());
-            squareGson.setUid(squareGsons.get(i).getUid());
-            squareGson.setWritetime(squareGsons.get(i).getWritetime());
-            if (squareGsons.get(i).getPic_size() > 0) {
-                squareGson.setPics(squareGsons.get(i).getPics());
-                squareGson.setPic_size(squareGsons.get(i).getPic_size());
-                list.add(new SquareEntity(2, squareGson));
-            } else {
-                list.add(new SquareEntity(1, squareGson));
+        if (squareGsons.size()==0){
+            tvNodata.setVisibility(View.VISIBLE);
+            rySquare.setVisibility(View.GONE);
+        }else {
+            tvNodata.setVisibility(View.GONE);
+            rySquare.setVisibility(View.VISIBLE);
+            List<SquareEntity> list = new ArrayList<>();
+            for (int i = 0; i < squareGsons.size(); i++) {
+                SquareGson squareGson = new SquareGson();
+                squareGson.setTitle(squareGsons.get(i).getTitle());
+                squareGson.setLocation(squareGsons.get(i).getLocation());
+                squareGson.setUser(squareGsons.get(i).getUser());
+                squareGson.setComment(squareGsons.get(i).getComment());
+                squareGson.setLike(squareGsons.get(i).isLike());
+                squareGson.setThumb(squareGsons.get(i).getThumb());
+                squareGson.setId(squareGsons.get(i).getId());
+                squareGson.setUid(squareGsons.get(i).getUid());
+                squareGson.setWritetime(squareGsons.get(i).getWritetime());
+                if (squareGsons.get(i).getPic_size() > 0) {
+                    squareGson.setPics(squareGsons.get(i).getPics());
+                    squareGson.setPic_size(squareGsons.get(i).getPic_size());
+                    list.add(new SquareEntity(2, squareGson));
+                } else {
+                    list.add(new SquareEntity(1, squareGson));
+                }
             }
+            adapter.addData(list);
+            rySquare.setAdapter(adapter);
         }
-        adapter.addData(list);
-        rySquare.setAdapter(adapter);
+
     }
 
     @Override
@@ -242,7 +248,7 @@ public class SquareFragment extends BaseFragment implements SquareContract.View,
         Log.i(TAG, "onReceive1: " + item);
         RadioButton rbThumb = (RadioButton) adapter.getViewByPosition(item, R.id.rb_thumb);
         TextView thumb = (TextView) adapter.getViewByPosition(item, R.id.tv_thumb_count);
-        if (rbThumb != null&&rbThumb.isChecked()==false) {
+        if (rbThumb != null && rbThumb.isChecked() == false) {
             rbThumb.setChecked(true);
             thumb.setText(String.valueOf(Integer.valueOf(thumb.getText().toString()) + 1));
         }

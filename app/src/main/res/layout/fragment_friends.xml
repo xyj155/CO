@@ -12,6 +12,7 @@
         android:id="@+id/waveHeader"
         android:layout_width="match_parent"
         android:layout_height="80dp" />
+
     <TextView
         android:id="@+id/tv_friend"
         android:layout_width="wrap_content"
@@ -26,52 +27,64 @@
         app:layout_collapseMode="pin"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="parent" />
+
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@mipmap/ic_user_contact"
-        android:layout_alignTop="@+id/tv_friend"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tv_friend"
+        android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginEnd="40dp" />
+        android:src="@mipmap/ic_user_contact" />
 
-<com.scwang.smartrefresh.layout.SmartRefreshLayout
-    android:layout_width="match_parent"
-    android:id="@+id/sl_friends"
-    android:layout_below="@+id/tv_friend"
-    android:layout_height="match_parent">
-
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gifView"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/sl_friends"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:src="@drawable/refresh_loading"
-        app:layout_srlSpinnerStyle="FixedBehind"
-        app:layout_srlBackgroundColor="@android:color/transparent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_friend">
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-     >
-
-        <LinearLayout
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="80dp"
+            android:src="@drawable/refresh_loading"
+            app:layout_srlBackgroundColor="@android:color/transparent"
+            app:layout_srlSpinnerStyle="FixedBehind" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/ry_conversation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
-            <View
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp" />
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:id="@+id/tv_nodata"
+                    android:layout_marginTop="80dp"
+                    android:drawableLeft="@mipmap/laught"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="你还没有好友哦！" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ry_conversation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </RelativeLayout>
